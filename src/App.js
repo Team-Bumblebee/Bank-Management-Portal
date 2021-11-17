@@ -1,32 +1,32 @@
 import { Route, Switch } from "react-router-dom";
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
+import Layout from "./components/Layout";
+import Admin from "./pages/Admin";
+import Cash from "./pages/Cash";
+import CashAdd from "./pages/CashAdd";
+import Employee from "./pages/Employee";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <div>
+    <Layout>
       <Switch>
-        <Route path="/about">
-          <About />
+        <Route path="/admin">
+          <Admin />
         </Route>
-        <Route path="/users">
-          <Users />
+        <Route path="/employee">
+          <Employee />
+        </Route>
+        <Route path="/cash" exact>
+          <Cash />
+        </Route>
+        <Route path="/cash/add">
+          <CashAdd />
         </Route>
         <Route path="/">
-          <Home />
+          <Login />
         </Route>
       </Switch>
-    </div>
+    </Layout>
   );
 }
 
