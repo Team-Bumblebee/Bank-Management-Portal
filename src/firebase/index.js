@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -10,5 +11,6 @@ const firebaseConfig = {
   appId: "1:262528981233:web:cffa18c51c5f578153f150",
 };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 export const db = getFirestore();
+export const auth = getAuth();

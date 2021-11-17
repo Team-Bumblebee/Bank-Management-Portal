@@ -1,6 +1,7 @@
 import { doc, runTransaction } from "firebase/firestore";
 import React, { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { db } from "../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
@@ -21,7 +22,9 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   );
 };
 
-const CashAdd = () => {
+const CashEdit = () => {
+  const { id } = useParams();
+
   const [details, setDetails] = useState({
     accHolderName: "",
     accHolderAddress: "",
@@ -58,8 +61,21 @@ const CashAdd = () => {
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
-          <Card.Header as="h5">Create a Cash Account</Card.Header>
+          <Card.Header as="h5">Update Account</Card.Header>
           <Card.Body>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={2}>
+                Account Number
+              </Form.Label>
+              <Col sm={10}>
+                <Form.Control
+                  placeholder="Account Number"
+                  name="accNumber"
+                  value={id}
+                  disabled={true}
+                />
+              </Col>
+            </Form.Group>
             <Form>
               <FormGroup
                 label="Name"
@@ -118,7 +134,7 @@ const CashAdd = () => {
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }}>
                   <Button variant="success" onClick={handleCreate}>
-                    Create
+                    Update
                   </Button>
                 </Col>
               </Form.Group>
@@ -130,4 +146,4 @@ const CashAdd = () => {
   );
 };
 
-export default CashAdd;
+export default CashEdit;

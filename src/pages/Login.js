@@ -1,6 +1,8 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { auth } from "../firebase";
 
 const Login = () => {
   const history = useHistory();
@@ -15,6 +17,13 @@ const Login = () => {
 
   const handleLogin = () => {
     console.log(email, password);
+    // signInWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     const user = userCredential.user;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     history.push("/admin");
     clear();
   };
