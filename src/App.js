@@ -6,6 +6,9 @@ import CashAdd from "./pages/CashAdd";
 import CashEdit from "./pages/CashEdit";
 import Employee from "./pages/Employee";
 import Login from "./pages/Login";
+import Pawn from "./pages/Pawn";
+import PawnAdd from "./pages/PawnAdd";
+import PawnEdit from "./pages/PawnEdit";
 
 function App() {
   return (
@@ -25,6 +28,15 @@ function App() {
         </Route>
         <Route path="/cash/:id">
           <CashEdit />
+        </Route>
+        <Route path="/pawn" exact>
+          <Pawn />
+        </Route>
+        <Route path="/pawn/add">
+          <PawnAdd />
+        </Route>
+        <Route path="/pawn/:id">
+          <PawnEdit />
         </Route>
         <Route path="/">
           <Login />
