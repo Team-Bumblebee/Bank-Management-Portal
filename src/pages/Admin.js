@@ -43,7 +43,7 @@ const Admin = () => {
           <AdminButton onClick={() => history.push("/")}>
             Loan Accounts
           </AdminButton>
-          <AdminButton onClick={() => history.push("/")}>
+          <AdminButton onClick={() => history.push("/pawn")}>
             Pawn Accounts
           </AdminButton>
         </Row>

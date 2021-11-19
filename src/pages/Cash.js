@@ -1,15 +1,16 @@
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
 import DeleteModal from "../components/DeleteModal";
+import { db } from "../firebase";
 
 const Cash = () => {
   const history = useHistory();
 
   const [accounts, setAccounts] = useState([]);
   const [show, setShow] = useState(false);
+  const [id, setID] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -22,7 +23,7 @@ const Cash = () => {
 
   return (
     <div className="py-5">
-      <DeleteModal show={show} setShow={setShow} />
+      <DeleteModal show={show} setShow={setShow} id={id} />
       <Container>
         <Card border="success" className="mb-2" body>
           <div className="d-flex justify-content-end">
@@ -64,7 +65,7 @@ const Cash = () => {
                     <i
                       className="bi bi-trash-fill"
                       role="button"
-                      onClick={() => setShow(true)}
+                      onClick={() => setShow(true) + setID(account.accNumber)}
                     ></i>
                   </td>
                 </tr>
