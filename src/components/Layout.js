@@ -1,9 +1,11 @@
 import React from "react";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import useAuth from "../contexts/AuthContext";
 
 const Layout = ({ children }) => {
   const history = useHistory();
+  const { userDetails } = useAuth();
 
   return (
     <div>
@@ -20,9 +22,15 @@ const Layout = ({ children }) => {
             Bank Management Portal
           </Navbar.Brand>
           <Nav className="me-auto">
-            {/* <Nav.Link>Home</Nav.Link>
-            <Nav.Link>Features</Nav.Link>
-            <Nav.Link>Pricing</Nav.Link> */}
+            <Nav.Link>
+              {userDetails &&
+                `Welcome ${userDetails.fName} ${userDetails.lName}`}
+            </Nav.Link>
+          </Nav>
+          <Nav className="justify-content-end">
+            <Nav.Link>
+              <Button variant="outline-light">LOGOUT</Button>
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>

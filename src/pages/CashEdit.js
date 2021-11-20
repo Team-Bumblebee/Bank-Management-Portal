@@ -1,7 +1,7 @@
-import { doc, runTransaction } from "firebase/firestore";
-import React, { useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { db } from "../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
@@ -23,6 +23,7 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 };
 
 const CashEdit = () => {
+  const history = useHistory();
   const { id } = useParams();
 
   const [details, setDetails] = useState({
@@ -38,24 +39,26 @@ const CashEdit = () => {
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
-  const handleCreate = async () => {
-    console.log(details);
-    const cashCounterDocRef = doc(db, "counters", "cash-accounts");
+  const handleUpdate = async () => {
     try {
-      await runTransaction(db, async (transaction) => {
-        const cashCounterDoc = await transaction.get(cashCounterDocRef);
-        const newCount = cashCounterDoc.data().count + 1;
-        let concat = "00000000" + newCount;
-        transaction.set(
-          doc(db, "cashaccounts", "CA" + concat.substring(concat.length - 8)),
-          details
-        );
-        transaction.update(cashCounterDocRef, { count: newCount });
-      });
+      await setDoc(doc(db, "cashaccounts", id), details);
     } catch (e) {
       console.error(e);
     }
+    history.push("/cash");
   };
+
+  useEffect(() => {
+    (async () => {
+      const docRef = doc(db, "cashaccounts", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setDetails(docSnap.data());
+      } else {
+        history.push("/cash");
+      }
+    })();
+  }, []);
 
   return (
     <div className="py-5">
@@ -133,7 +136,7 @@ const CashEdit = () => {
 
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }}>
-                  <Button variant="success" onClick={handleCreate}>
+                  <Button variant="success" onClick={handleUpdate}>
                     Update
                   </Button>
                 </Col>

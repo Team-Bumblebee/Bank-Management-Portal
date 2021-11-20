@@ -1,9 +1,9 @@
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
 import DeleteModal from "../components/DeleteModal";
+import { db } from "../firebase";
 
 const Pawn = () => {
   const history = useHistory();
@@ -27,12 +27,14 @@ const Pawn = () => {
         show={show}
         setShow={setShow}
         id={id}
-        collection={"pawnaccounts"}
+        collection="pawnaccounts"
       />
+
       <Container>
         <Card border="success" className="mb-2" body>
           <div className="d-flex justify-content-end">
             <Button variant="success" onClick={() => history.push("/pawn/add")}>
+              <i className="bi bi-plus"></i>
               Create Pawn Account
             </Button>
           </div>
