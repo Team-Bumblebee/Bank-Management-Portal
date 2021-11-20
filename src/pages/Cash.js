@@ -19,15 +19,22 @@ const Cash = () => {
         querySnapshot.docs.map((doc) => ({ accNumber: doc.id, ...doc.data() }))
       );
     })();
-  }, []);
+  }, [show]);
 
   return (
     <div className="py-5">
-      <DeleteModal show={show} setShow={setShow} id={id} />
+      <DeleteModal
+        show={show}
+        setShow={setShow}
+        id={id}
+        collection="cashaccounts"
+      />
+
       <Container>
         <Card border="success" className="mb-2" body>
           <div className="d-flex justify-content-end">
             <Button variant="success" onClick={() => history.push("/cash/add")}>
+              <i className="bi bi-plus"></i>
               Create Cash Account
             </Button>
           </div>
@@ -59,7 +66,11 @@ const Cash = () => {
                   <td>{account.type}</td>
                   <td>{account.remarks}</td>
                   <td align="center">
-                    <i className="bi bi-pencil-square" role="button"></i>
+                    <i
+                      className="bi bi-pencil-square"
+                      role="button"
+                      onClick={() => history.push(`/cash/${account.accNumber}`)}
+                    ></i>
                   </td>
                   <td align="center">
                     <i

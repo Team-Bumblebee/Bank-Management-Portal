@@ -1,4 +1,4 @@
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
@@ -24,8 +24,8 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 
 const PawnEdit = () => {
   const history = useHistory();
-
   const { id } = useParams();
+
   const [details, setDetails] = useState({
     pawnHolderName: "",
     pawnHolderAddress: "",
@@ -41,7 +41,6 @@ const PawnEdit = () => {
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleUpdate = async () => {
-    console.log(details);
     try {
       await setDoc(doc(db, "pawnaccounts", id), details);
     } catch (e) {
@@ -54,7 +53,11 @@ const PawnEdit = () => {
     (async () => {
       const docRef = doc(db, "pawnaccounts", id);
       const docSnap = await getDoc(docRef);
-      setDetails(docSnap.data());
+      if (docSnap.exists()) {
+        setDetails(docSnap.data());
+      } else {
+        history.push("/pawn");
+      }
     })();
   }, []);
 

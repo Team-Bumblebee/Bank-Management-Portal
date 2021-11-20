@@ -15,17 +15,19 @@ const Login = () => {
     setPassword("");
   };
 
-  const handleLogin = () => {
-    console.log(email, password);
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user;
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  const handleLogin = async () => {
+    // try {
+    //   const userCredential = await signInWithEmailAndPassword(
+    //     auth,
+    //     email,
+    //     password
+    //   );
+    //   const user = userCredential.user;
     history.push("/admin");
-    clear();
+    //   clear();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (

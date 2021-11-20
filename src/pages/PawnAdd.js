@@ -40,7 +40,6 @@ const PawnAdd = () => {
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
-    console.log(details);
     const pawnCounterDocRef = doc(db, "counters", "pawn-accounts");
     try {
       await runTransaction(db, async (transaction) => {
