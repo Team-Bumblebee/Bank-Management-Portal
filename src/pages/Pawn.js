@@ -32,10 +32,11 @@ const Pawn = () => {
 
       <Container>
         <Card border="success" className="mb-2" body>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-between">
+            <h3 style={{ color: "darkolivegreen" }}>Pawning Department</h3>
             <Button variant="success" onClick={() => history.push("/pawn/add")}>
               <i className="bi bi-plus"></i>
-              Create Pawn Account
+              New Pawn Account
             </Button>
           </div>
         </Card>
@@ -49,7 +50,7 @@ const Pawn = () => {
                 <th>Mobile</th>
                 <th>Age</th>
                 <th>Item Type</th>
-                <th>Item Value</th>
+                <th>Item Value(Rs.)</th>
                 <th>Duration</th>
                 <th>Description</th>
                 <th colSpan={2}></th>
@@ -65,7 +66,7 @@ const Pawn = () => {
                   <td>{pawn.pawnHolderAge}</td>
                   <td>{pawn.itemType}</td>
                   <td>{pawn.itemValue}</td>
-                  <td>{pawn.duration}</td>
+                  <td>{pawn.duration} years</td>
                   <td>{pawn.description}</td>
                   <td align="center">
                     <i

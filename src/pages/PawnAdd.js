@@ -62,7 +62,9 @@ const PawnAdd = () => {
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
-          <Card.Header as="h5">Create a Pawn Account</Card.Header>
+          <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
+            Create a Pawn Account
+          </Card.Header>
           <Card.Body>
             <Form>
               <FormGroup
@@ -106,8 +108,8 @@ const PawnAdd = () => {
               />
 
               <FormGroup
-                label="Item Value"
-                placeholder="Item Value"
+                label="Item Value(Rs.)"
+                placeholder="Item Value in Ruppees"
                 name="itemValue"
                 value={details.itemValue}
                 onChange={setValue}
@@ -115,7 +117,7 @@ const PawnAdd = () => {
 
               <FormGroup
                 label="Duration"
-                placeholder="Duration"
+                placeholder="Duration in years"
                 name="duration"
                 value={details.duration}
                 onChange={setValue}
@@ -132,7 +134,14 @@ const PawnAdd = () => {
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }}>
                   <Button variant="success" onClick={handleCreate}>
-                    Create
+                    Create Account
+                  </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => history.push("/pawn")}
+                    style={{ marginLeft: 70 }}
+                  >
+                    Go Back
                   </Button>
                 </Col>
               </Form.Group>
