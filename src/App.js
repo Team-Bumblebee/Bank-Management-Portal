@@ -6,6 +6,8 @@ import Cash from "./pages/Cash";
 import CashAdd from "./pages/CashAdd";
 import CashEdit from "./pages/CashEdit";
 import Employee from "./pages/Employee";
+import EmployeeAdd from "./pages/EmployeeAdd";
+import EmployeeEdit from "./pages/EmployeeEdit";
 import Login from "./pages/Login";
 import Pawn from "./pages/Pawn";
 import PawnAdd from "./pages/PawnAdd";
@@ -19,8 +21,14 @@ function App() {
           <Route path="/admin">
             <Admin />
           </Route>
-          <Route path="/employee">
+          <Route path="/employee" exact>
             <Employee />
+          </Route>
+          <Route path="/employee/add">
+            <EmployeeAdd />
+          </Route>
+          <Route path="/employee/:id">
+            <EmployeeEdit />
           </Route>
           <Route path="/cash" exact>
             <Cash />
