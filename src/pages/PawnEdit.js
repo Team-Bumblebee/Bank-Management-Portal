@@ -65,13 +65,15 @@ const PawnEdit = () => {
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
-          <Card.Header as="h5">Update Pawn Account Details</Card.Header>
+          <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
+            Update Pawn Account Details
+          </Card.Header>
           <Card.Body>
             <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={4}>
+              <Form.Label column sm={2}>
                 Pawn Account Number
               </Form.Label>
-              <Col sm={8}>
+              <Col sm={10}>
                 <Form.Control
                   placeholder="Account Number"
                   name="accNumber"
@@ -82,7 +84,7 @@ const PawnEdit = () => {
             </Form.Group>
             <Form>
               <FormGroup
-                label="Holder's Name"
+                label="Account Name"
                 placeholder="Name"
                 name="pawnHolderName"
                 value={details.pawnHolderName}
@@ -122,7 +124,7 @@ const PawnEdit = () => {
               />
 
               <FormGroup
-                label="Item Value"
+                label="Item Value(Rs.)"
                 placeholder="Item Value"
                 name="itemValue"
                 value={details.itemValue}
@@ -133,7 +135,7 @@ const PawnEdit = () => {
                 label="Duration"
                 placeholder="Duration"
                 name="duration"
-                value={details.duration}
+                value={details.duration + " years"}
                 onChange={setValue}
               />
 
@@ -148,7 +150,14 @@ const PawnEdit = () => {
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }}>
                   <Button variant="success" onClick={handleUpdate}>
-                    Update
+                    Update Details
+                  </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => history.push("/pawn")}
+                    style={{ marginLeft: 70 }}
+                  >
+                    Go Back
                   </Button>
                 </Col>
               </Form.Group>
