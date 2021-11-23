@@ -155,9 +155,9 @@ const PawnEdit = () => {
                   <Button
                     variant="outline-secondary"
                     onClick={() => history.push("/pawn")}
-                    style={{ marginLeft: 70 }}
+                    style={{ marginLeft: 48 }}
                   >
-                    Go Back
+                    <i className="bi bi-arrow-left"></i>&nbsp; Go Back
                   </Button>
                 </Col>
               </Form.Group>

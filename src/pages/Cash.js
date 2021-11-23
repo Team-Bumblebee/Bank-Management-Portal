@@ -32,7 +32,8 @@ const Cash = () => {
 
       <Container>
         <Card border="success" className="mb-2" body>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-between">
+            <h4 style={{ color: "darkolivegreen" }}>Accounts Department</h4>
             <Button variant="success" onClick={() => history.push("/cash/add")}>
               <i className="bi bi-plus"></i>
               Create Cash Account

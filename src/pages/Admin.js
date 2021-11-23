@@ -23,7 +23,7 @@ const Admin = () => {
 
   return (
     <div
-      style={{ height: "calc(100vh - 56px)" }}
+      style={{ height: "calc(100vh - 111px)" }}
       className="d-flex justify-content-center align-items-center"
     >
       <Container>

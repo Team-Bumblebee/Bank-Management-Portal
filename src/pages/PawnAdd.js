@@ -1,6 +1,14 @@
 import { doc, runTransaction } from "firebase/firestore";
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
 
@@ -36,10 +44,13 @@ const PawnAdd = () => {
     description: "",
   });
 
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
+    setShowSuccessMsg(false);
     const pawnCounterDocRef = doc(db, "counters", "pawn-accounts");
     try {
       await runTransaction(db, async (transaction) => {
@@ -52,10 +63,25 @@ const PawnAdd = () => {
         );
         transaction.update(pawnCounterDocRef, { count: newCount });
       });
+      setShowSuccessMsg(true);
+      clear();
       history.push("/pawn");
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const clear = () => {
+    setDetails({
+      pawnHolderName: "",
+      pawnHolderAddress: "",
+      pawnHolderMobileNo: "",
+      pawnHolderAge: "",
+      itemType: "",
+      itemValue: "",
+      duration: "",
+      description: "",
+    });
   };
 
   return (
@@ -139,12 +165,17 @@ const PawnAdd = () => {
                   <Button
                     variant="outline-secondary"
                     onClick={() => history.push("/pawn")}
-                    style={{ marginLeft: 70 }}
+                    style={{ marginLeft: 48 }}
                   >
-                    Go Back
+                    <i className="bi bi-arrow-left"></i>&nbsp; Go Back
                   </Button>
                 </Col>
               </Form.Group>
+              {showSuccessMsg && (
+                <Alert variant="success">
+                  Pawn Account successfully added !
+                </Alert>
+              )}
             </Form>
           </Card.Body>
         </Card>

@@ -32,11 +32,15 @@ const Login = () => {
 
   return (
     <div
-      style={{ height: "calc(100vh - 56px)" }}
+      style={{ height: "calc(100vh - 111px)" }}
       className="d-flex justify-content-center align-items-center"
     >
       <Card style={{ width: "40%" }} border="success">
-        <Card.Header className="text-center" as="h3">
+        <Card.Header
+          className="text-center"
+          as="h3"
+          style={{ color: "darkolivegreen" }}
+        >
           Login
         </Card.Header>
         <Card.Body>

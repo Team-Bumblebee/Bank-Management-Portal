@@ -1,6 +1,15 @@
 import { doc, runTransaction } from "firebase/firestore";
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
@@ -22,6 +31,7 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 };
 
 const EmployeeAdd = () => {
+  const history = useHistory();
   const [details, setDetails] = useState({
     name: "",
     address: "",
@@ -34,11 +44,12 @@ const EmployeeAdd = () => {
   });
 
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
-    console.log(details);
+    setShowSuccessMsg(false);
     const employeeCounterDocRef = doc(db, "counters", "employees");
     try {
       await runTransaction(db, async (transaction) => {
@@ -52,26 +63,31 @@ const EmployeeAdd = () => {
         transaction.update(employeeCounterDocRef, { count: newCount });
       });
       setShowSuccessMsg(true);
-      setDetails({
-        name: "",
-        address: "",
-        mobileNo: "",
-        age: "",
-        gender: "",
-        email: "",
-        position: "",
-        salary: "",
-      });
+      clear();
     } catch (e) {
       console.error(e);
     }
   };
 
+  const clear = () =>
+    setDetails({
+      name: "",
+      address: "",
+      mobileNo: "",
+      age: "",
+      gender: "",
+      email: "",
+      position: "",
+      salary: "",
+    });
+
   return (
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
-          <Card.Header as="h5">Add Employee</Card.Header>
+          <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
+            Add Employee
+          </Card.Header>
           <Card.Body>
             <Form>
               <FormGroup
@@ -143,11 +159,18 @@ const EmployeeAdd = () => {
                   <Button variant="success" onClick={handleCreate}>
                     Create
                   </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => history.push("/employee")}
+                    style={{ marginLeft: 48 }}
+                  >
+                    <i className="bi bi-arrow-left"></i>&nbsp; Go Back
+                  </Button>
                 </Col>
-                {showSuccessMsg && (
-                  <Col sm={{ span: 5 }}>Employee successfully added !</Col>
-                )}
               </Form.Group>
+              {showSuccessMsg && (
+                <Alert variant="success">Employee successfully added !</Alert>
+              )}
             </Form>
           </Card.Body>
         </Card>

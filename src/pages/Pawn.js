@@ -33,7 +33,7 @@ const Pawn = () => {
       <Container>
         <Card border="success" className="mb-2" body>
           <div className="d-flex justify-content-between">
-            <h3 style={{ color: "darkolivegreen" }}>Pawning Department</h3>
+            <h4 style={{ color: "darkolivegreen" }}>Pawning Department</h4>
             <Button variant="success" onClick={() => history.push("/pawn/add")}>
               <i className="bi bi-plus"></i>
               New Pawn Account
