@@ -1,6 +1,15 @@
 import { doc, runTransaction } from "firebase/firestore";
 import React, { useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
@@ -22,6 +31,7 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 };
 
 const CashAdd = () => {
+  const history = useHistory();
   const [details, setDetails] = useState({
     accHolderName: "",
     accHolderAddress: "",
@@ -32,11 +42,13 @@ const CashAdd = () => {
     remarks: "",
   });
 
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
-    console.log(details);
+    setShowSuccessMsg(false);
     const cashCounterDocRef = doc(db, "counters", "cash-accounts");
     try {
       await runTransaction(db, async (transaction) => {
@@ -49,16 +61,32 @@ const CashAdd = () => {
         );
         transaction.update(cashCounterDocRef, { count: newCount });
       });
+      setShowSuccessMsg(true);
+      clear();
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const clear = () => {
+    setDetails({
+      accHolderName: "",
+      accHolderAddress: "",
+      accHolderMobileNo: "",
+      accHolderAge: "",
+      interestRate: "",
+      type: "",
+      remarks: "",
+    });
   };
 
   return (
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
-          <Card.Header as="h5">Create a Cash Account</Card.Header>
+          <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
+            Create a Cash Account
+          </Card.Header>
           <Card.Body>
             <Form>
               <FormGroup
@@ -120,8 +148,18 @@ const CashAdd = () => {
                   <Button variant="success" onClick={handleCreate}>
                     Create
                   </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => history.push("/cash")}
+                    style={{ marginLeft: 48 }}
+                  >
+                    <i className="bi bi-arrow-left"></i>&nbsp; Go Back
+                  </Button>
                 </Col>
               </Form.Group>
+              {showSuccessMsg && (
+                <Alert variant="success">Account successfully added !</Alert>
+              )}
             </Form>
           </Card.Body>
         </Card>

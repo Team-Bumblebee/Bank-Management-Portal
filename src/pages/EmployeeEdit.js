@@ -65,7 +65,9 @@ const EmployeeEdit = () => {
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
-          <Card.Header as="h5">Update Employee</Card.Header>
+          <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
+            Update Employee
+          </Card.Header>
           <Card.Body>
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={3}>
@@ -149,6 +151,13 @@ const EmployeeEdit = () => {
                 <Col sm={{ span: 9, offset: 3 }}>
                   <Button variant="success" onClick={handleUpdate}>
                     Update
+                  </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => history.push("/employee")}
+                    style={{ marginLeft: 48 }}
+                  >
+                    <i className="bi bi-arrow-left"></i>&nbsp; Go Back
                   </Button>
                 </Col>
               </Form.Group>

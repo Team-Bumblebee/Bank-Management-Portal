@@ -14,13 +14,13 @@ const Layout = ({ children }) => {
           <Navbar.Brand
             onClick={() => history.push("/")}
             role="button"
-            style={{ fontSize: 30 }}
+            style={{ fontSize: 24 }}
           >
             <img
               alt=""
               src="/logo512.png"
-              width="50"
-              height="50"
+              width="32"
+              height="32"
               className="d-inline-block align-top"
               style={{ marginRight: 50 }}
             />
@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
           <Nav className="justify-content-end">
             <Nav.Link>
               <Button
-                variant="outline-light"
+                variant="dark"
                 style={{ backgroundColor: "darkslategrey" }}
               >
                 LOGOUT
@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
       </Navbar>
       <div
         style={{
-          minHeight: "calc(100vh - 110px)",
+          minHeight: "calc(100vh - 111px)",
           backgroundColor: "#fafafa",
         }}
       >

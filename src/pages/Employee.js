@@ -32,7 +32,10 @@ const Employee = () => {
 
       <Container>
         <Card border="success" className="mb-2" body>
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-between">
+            <h4 style={{ color: "darkolivegreen" }}>
+              Administrative Department
+            </h4>
             <Button
               variant="success"
               onClick={() => history.push("/employee/add")}

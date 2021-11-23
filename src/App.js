@@ -18,6 +18,9 @@ function App() {
     <AuthProvider>
       <Layout>
         <Switch>
+          <Route path="/" exact>
+            <Login />
+          </Route>
           <Route path="/admin">
             <Admin />
           </Route>
@@ -47,9 +50,6 @@ function App() {
           </Route>
           <Route path="/pawn/:id">
             <PawnEdit />
-          </Route>
-          <Route path="/">
-            <Login />
           </Route>
         </Switch>
       </Layout>
