@@ -26,7 +26,7 @@ const LoanType = (refresh) => {
   }, [show, refresh]);
 
   return (
-    <div className="py-5">
+    <div className="py-3">
       <DeleteModal
         show={show}
         setShow={setShow}

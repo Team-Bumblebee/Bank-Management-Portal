@@ -40,7 +40,7 @@ const Admin = () => {
           <AdminButton onClick={() => history.push("/cash")}>
             Cash Accounts
           </AdminButton>
-          <AdminButton onClick={() => history.push("/")}>
+          <AdminButton onClick={() => history.push("/loan")}>
             Loan Accounts
           </AdminButton>
           <AdminButton onClick={() => history.push("/pawn")}>
