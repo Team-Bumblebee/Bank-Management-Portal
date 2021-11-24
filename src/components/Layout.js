@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand
-            onClick={() => history.push("/")}
+            onClick={() => history.push("/admin")}
             role="button"
             style={{ fontSize: 24 }}
           >
