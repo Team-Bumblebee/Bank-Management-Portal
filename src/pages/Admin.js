@@ -31,7 +31,7 @@ const Admin = () => {
           <AdminButton onClick={() => history.push("/employee")}>
             Employee Details
           </AdminButton>
-          <AdminButton onClick={() => history.push("/")}>
+          <AdminButton onClick={() => history.push("/accType")}>
             Account Types
           </AdminButton>
           <AdminButton onClick={() => history.push("/")}>
