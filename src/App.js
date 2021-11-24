@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
 import Admin from "./pages/Admin";
 import Cash from "./pages/Cash";
+import AccType from "./pages/AccountTypes/AccHome";
 import CashAdd from "./pages/CashAdd";
 import CashEdit from "./pages/CashEdit";
 import Employee from "./pages/Employee";
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route path="/admin">
             <Admin />
+          </Route>
+          <Route path="/accType">
+            <AccType />
           </Route>
           <Route path="/employee" exact>
             <Employee />
