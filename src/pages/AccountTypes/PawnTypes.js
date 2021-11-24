@@ -39,7 +39,7 @@ const PawnType = (refresh) => {
           <h4 style={{ color: "darkolivegreen" }}>Pawn Account Types</h4>
           <Button
             variant="success"
-            onClick={() => history.push("/pawnType/add")}
+            onClick={() => history.push("/pawnTypes/add")}
           >
             <i className="bi bi-plus"></i>
             Create Pawn Account Type
@@ -72,7 +72,9 @@ const PawnType = (refresh) => {
                   <i
                     className="bi bi-pencil-square"
                     role="button"
-                    //   onClick={() => history.push(`/pawnType/${account.accNumber}`)}
+                    onClick={() =>
+                      history.push(`/pawnTypes/${account.accNumber}`)
+                    }
                   ></i>
                 </td>
                 <td align="center">
