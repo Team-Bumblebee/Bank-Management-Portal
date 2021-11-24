@@ -1,16 +1,8 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -30,12 +22,11 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   );
 };
 
-const PawnEdit = () => {
+const LoanEdit = () => {
   const history = useHistory();
   const { id } = useParams();
-  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const [details, setDetails] = useState({
-    accType: "",
     pawnHolderName: "",
     pawnHolderAddress: "",
     pawnHolderMobileNo: "",
@@ -50,16 +41,12 @@ const PawnEdit = () => {
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleUpdate = async () => {
-    setShowSuccessMsg(false);
     try {
       await setDoc(doc(db, "pawnaccounts", id), details);
     } catch (e) {
       console.error(e);
     }
-    setShowSuccessMsg(true);
-    setTimeout(() => {
-      history.push("/pawn");
-    }, 2000);
+    history.push("/pawn");
   };
 
   useEffect(() => {
@@ -84,20 +71,7 @@ const PawnEdit = () => {
           <Card.Body>
             <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={2}>
-                Account Type
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Select
-                  aria-label="Default select example"
-                  disabled={true}
-                >
-                  <option>{details.accType}</option>
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={2}>
-                Account ID
+                Pawn Account Number
               </Form.Label>
               <Col sm={10}>
                 <Form.Control
@@ -110,7 +84,7 @@ const PawnEdit = () => {
             </Form.Group>
             <Form>
               <FormGroup
-                label="Pawner's Name"
+                label="Account Name"
                 placeholder="Name"
                 name="pawnHolderName"
                 value={details.pawnHolderName}
@@ -187,11 +161,6 @@ const PawnEdit = () => {
                   </Button>
                 </Col>
               </Form.Group>
-              {showSuccessMsg && (
-                <Alert variant="success">
-                  Pawn Account successfully updated !
-                </Alert>
-              )}
             </Form>
           </Card.Body>
         </Card>
@@ -200,4 +169,4 @@ const PawnEdit = () => {
   );
 };
 
-export default PawnEdit;
+export default LoanEdit;

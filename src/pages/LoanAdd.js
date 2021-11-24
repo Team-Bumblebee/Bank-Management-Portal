@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { doc, runTransaction } from "firebase/firestore";
+import React, { useState } from "react";
 import {
   Alert,
   Button,
@@ -8,9 +9,8 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -30,12 +30,10 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   );
 };
 
-const PawnEdit = () => {
+const LoanAdd = () => {
   const history = useHistory();
-  const { id } = useParams();
-  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const [details, setDetails] = useState({
-    accType: "",
     pawnHolderName: "",
     pawnHolderAddress: "",
     pawnHolderMobileNo: "",
@@ -46,71 +44,57 @@ const PawnEdit = () => {
     description: "",
   });
 
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
-  const handleUpdate = async () => {
+  const handleCreate = async () => {
     setShowSuccessMsg(false);
+    const pawnCounterDocRef = doc(db, "counters", "pawn-accounts");
     try {
-      await setDoc(doc(db, "pawnaccounts", id), details);
+      await runTransaction(db, async (transaction) => {
+        const pawnCounterDoc = await transaction.get(pawnCounterDocRef);
+        const newCount = pawnCounterDoc.data().count + 1;
+        let concat = "0000000" + newCount;
+        transaction.set(
+          doc(db, "pawnaccounts", "PA" + concat.substring(concat.length - 8)),
+          details
+        );
+        transaction.update(pawnCounterDocRef, { count: newCount });
+      });
+      setShowSuccessMsg(true);
+      clear();
+      history.push("/pawn");
     } catch (e) {
       console.error(e);
     }
-    setShowSuccessMsg(true);
-    setTimeout(() => {
-      history.push("/pawn");
-    }, 2000);
   };
 
-  useEffect(() => {
-    (async () => {
-      const docRef = doc(db, "pawnaccounts", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setDetails(docSnap.data());
-      } else {
-        history.push("/pawn");
-      }
-    })();
-  }, []);
+  const clear = () => {
+    setDetails({
+      pawnHolderName: "",
+      pawnHolderAddress: "",
+      pawnHolderMobileNo: "",
+      pawnHolderAge: "",
+      itemType: "",
+      itemValue: "",
+      duration: "",
+      description: "",
+    });
+  };
 
   return (
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
           <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
-            Update Pawn Account Details
+            Create a Pawn Account
           </Card.Header>
           <Card.Body>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={2}>
-                Account Type
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Select
-                  aria-label="Default select example"
-                  disabled={true}
-                >
-                  <option>{details.accType}</option>
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={2}>
-                Account ID
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control
-                  placeholder="Account Number"
-                  name="accNumber"
-                  value={id}
-                  disabled={true}
-                />
-              </Col>
-            </Form.Group>
             <Form>
               <FormGroup
-                label="Pawner's Name"
+                label="Name"
                 placeholder="Name"
                 name="pawnHolderName"
                 value={details.pawnHolderName}
@@ -151,7 +135,7 @@ const PawnEdit = () => {
 
               <FormGroup
                 label="Item Value(Rs.)"
-                placeholder="Item Value"
+                placeholder="Item Value in Ruppees"
                 name="itemValue"
                 value={details.itemValue}
                 onChange={setValue}
@@ -159,9 +143,9 @@ const PawnEdit = () => {
 
               <FormGroup
                 label="Duration"
-                placeholder="Duration"
+                placeholder="Duration in years"
                 name="duration"
-                value={details.duration + " years"}
+                value={details.duration}
                 onChange={setValue}
               />
 
@@ -175,8 +159,8 @@ const PawnEdit = () => {
 
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 10, offset: 2 }}>
-                  <Button variant="success" onClick={handleUpdate}>
-                    Update Details
+                  <Button variant="success" onClick={handleCreate}>
+                    Create Account
                   </Button>
                   <Button
                     variant="outline-secondary"
@@ -189,7 +173,7 @@ const PawnEdit = () => {
               </Form.Group>
               {showSuccessMsg && (
                 <Alert variant="success">
-                  Pawn Account successfully updated !
+                  Pawn Account successfully added !
                 </Alert>
               )}
             </Form>
@@ -200,4 +184,4 @@ const PawnEdit = () => {
   );
 };
 
-export default PawnEdit;
+export default LoanAdd;

@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import DeleteModal from "../../components/DeleteModal";
 import { db } from "../../firebase";
 
-const PawnType = () => {
+const PawnType = (refresh) => {
   const history = useHistory();
 
   const [accounts, setAccounts] = useState([]);
@@ -23,10 +23,10 @@ const PawnType = () => {
         querySnapshot.docs.map((doc) => ({ accNumber: doc.id, ...doc.data() }))
       );
     })();
-  }, [show]);
+  }, [show, refresh]);
 
   return (
-    <div className="py-5">
+    <div className="py-3">
       <DeleteModal
         show={show}
         setShow={setShow}

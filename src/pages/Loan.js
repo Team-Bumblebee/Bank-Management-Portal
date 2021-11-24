@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal";
 import { db } from "../firebase";
 
-const Cash = () => {
+const Loan = () => {
   const history = useHistory();
 
   const [accounts, setAccounts] = useState([]);
@@ -14,9 +14,9 @@ const Cash = () => {
 
   useEffect(() => {
     (async () => {
-      const querySnapshot = await getDocs(collection(db, "cashaccounts"));
+      const querySnapshot = await getDocs(collection(db, "pawnaccounts"));
       setAccounts(
-        querySnapshot.docs.map((doc) => ({ accNumber: doc.id, ...doc.data() }))
+        querySnapshot.docs.map((doc) => ({ pawnNumber: doc.id, ...doc.data() }))
       );
     })();
   }, [show]);
@@ -27,16 +27,16 @@ const Cash = () => {
         show={show}
         setShow={setShow}
         id={id}
-        collection="cashaccounts"
+        collection="pawnaccounts"
       />
 
       <Container>
         <Card border="success" className="mb-2" body>
           <div className="d-flex justify-content-between">
-            <h4 style={{ color: "darkolivegreen" }}>Accounts Department</h4>
-            <Button variant="success" onClick={() => history.push("/cash/add")}>
+            <h4 style={{ color: "darkolivegreen" }}>Pawning Department</h4>
+            <Button variant="success" onClick={() => history.push("/pawn/add")}>
               <i className="bi bi-plus"></i>
-              Create Cash Account
+              New Pawn Account
             </Button>
           </div>
         </Card>
@@ -49,35 +49,37 @@ const Cash = () => {
                 <th>Address</th>
                 <th>Mobile</th>
                 <th>Age</th>
-                <th>Interest Rate(%)</th>
-                <th>Type</th>
-                <th>Remarks</th>
+                <th>Item Type</th>
+                <th>Item Value(Rs.)</th>
+                <th>Duration</th>
+                <th>Description</th>
                 <th colSpan={2}></th>
               </tr>
             </thead>
             <tbody>
-              {accounts.map((account) => (
-                <tr key={account.accNumber}>
-                  <td>{account.accNumber}</td>
-                  <td>{account.accHolderName}</td>
-                  <td>{account.accHolderAddress}</td>
-                  <td>{account.accHolderMobileNo}</td>
-                  <td>{account.accHolderAge}</td>
-                  <td>{account.interestRate}</td>
-                  <td>{account.type}</td>
-                  <td>{account.remarks}</td>
+              {accounts.map((pawn) => (
+                <tr key={pawn.pawnNumber}>
+                  <td>{pawn.pawnNumber}</td>
+                  <td>{pawn.pawnHolderName}</td>
+                  <td>{pawn.pawnHolderAddress}</td>
+                  <td>{pawn.pawnHolderMobileNo}</td>
+                  <td>{pawn.pawnHolderAge}</td>
+                  <td>{pawn.itemType}</td>
+                  <td>{pawn.itemValue}</td>
+                  <td>{pawn.duration} years</td>
+                  <td>{pawn.description}</td>
                   <td align="center">
                     <i
                       className="bi bi-pencil-square"
                       role="button"
-                      onClick={() => history.push(`/cash/${account.accNumber}`)}
+                      onClick={() => history.push(`/pawn/${pawn.pawnNumber}`)}
                     ></i>
                   </td>
                   <td align="center">
                     <i
                       className="bi bi-trash-fill"
                       role="button"
-                      onClick={() => setShow(true) + setID(account.accNumber)}
+                      onClick={() => setShow(true) + setID(pawn.pawnNumber)}
                     ></i>
                   </td>
                 </tr>
@@ -90,4 +92,4 @@ const Cash = () => {
   );
 };
 
-export default Cash;
+export default Loan;
