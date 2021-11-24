@@ -1,9 +1,9 @@
-import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Table } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal";
 import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 const Pawn = () => {
   const history = useHistory();
@@ -42,10 +42,11 @@ const Pawn = () => {
         </Card>
         <Card border="success" body>
           <Table striped bordered hover>
-            <thead>
+            <thead align="center">
               <tr>
-                <th>Account Number</th>
-                <th>Name</th>
+                <th>Account ID</th>
+                <th>Type</th>
+                <th>Pawner's Name</th>
                 <th>Address</th>
                 <th>Mobile</th>
                 <th>Age</th>
@@ -56,10 +57,11 @@ const Pawn = () => {
                 <th colSpan={2}></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody align="center">
               {accounts.map((pawn) => (
                 <tr key={pawn.pawnNumber}>
                   <td>{pawn.pawnNumber}</td>
+                  <td>{pawn.accType}</td>
                   <td>{pawn.pawnHolderName}</td>
                   <td>{pawn.pawnHolderAddress}</td>
                   <td>{pawn.pawnHolderMobileNo}</td>

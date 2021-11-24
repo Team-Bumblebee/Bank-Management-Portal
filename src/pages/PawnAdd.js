@@ -1,5 +1,4 @@
-import { doc, runTransaction } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -11,6 +10,14 @@ import {
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  runTransaction,
+  query,
+  where,
+} from "firebase/firestore";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -34,6 +41,7 @@ const PawnAdd = () => {
   const history = useHistory();
 
   const [details, setDetails] = useState({
+    accType: "",
     pawnHolderName: "",
     pawnHolderAddress: "",
     pawnHolderMobileNo: "",
@@ -45,34 +53,53 @@ const PawnAdd = () => {
   });
 
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [showWarningMsg, setShowWarningMsg] = useState(false);
+  const [accounts, setAccounts] = useState([]);
+  const [interest, setInterest] = useState();
+  const [ageGroup, setAgeGroup] = useState("");
+  const [maxValue, setMaxValue] = useState("");
 
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
-    setShowSuccessMsg(false);
-    const pawnCounterDocRef = doc(db, "counters", "pawn-accounts");
-    try {
-      await runTransaction(db, async (transaction) => {
-        const pawnCounterDoc = await transaction.get(pawnCounterDocRef);
-        const newCount = pawnCounterDoc.data().count + 1;
-        let concat = "0000000" + newCount;
-        transaction.set(
-          doc(db, "pawnaccounts", "PA" + concat.substring(concat.length - 8)),
-          details
-        );
-        transaction.update(pawnCounterDocRef, { count: newCount });
-      });
-      setShowSuccessMsg(true);
-      clear();
-      history.push("/pawn");
-    } catch (e) {
-      console.error(e);
+    if (
+      details.accType &&
+      details.pawnHolderName &&
+      details.itemType &&
+      details.itemValue
+    ) {
+      setShowWarningMsg(false);
+      setShowSuccessMsg(false);
+      const pawnCounterDocRef = doc(db, "counters", "pawn-accounts");
+      try {
+        await runTransaction(db, async (transaction) => {
+          const pawnCounterDoc = await transaction.get(pawnCounterDocRef);
+          const newCount = pawnCounterDoc.data().count + 1;
+          let concat = "0000000" + newCount;
+          transaction.set(
+            doc(db, "pawnaccounts", "PA" + concat.substring(concat.length - 8)),
+            details
+          );
+          transaction.update(pawnCounterDocRef, { count: newCount });
+        });
+        setShowSuccessMsg(true);
+        clear();
+        setTimeout(() => {
+          history.push("/pawn");
+        }, 2000);
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      setShowWarningMsg(true);
     }
   };
 
   const clear = () => {
+    setShowWarningMsg(false);
     setDetails({
+      accType: "",
       pawnHolderName: "",
       pawnHolderAddress: "",
       pawnHolderMobileNo: "",
@@ -82,7 +109,23 @@ const PawnAdd = () => {
       duration: "",
       description: "",
     });
+    setInterest();
+    setAgeGroup("");
+    setMaxValue("");
   };
+
+  useEffect(() => {
+    (async () => {
+      const docRef = query(
+        collection(db, "accounttypes"),
+        where("category", "==", "pawn")
+      );
+      const querySnapshot = await getDocs(docRef);
+      setAccounts(
+        querySnapshot.docs.map((doc) => ({ accNumber: doc.id, ...doc.data() }))
+      );
+    })();
+  }, []);
 
   return (
     <div className="py-5">
@@ -91,11 +134,57 @@ const PawnAdd = () => {
           <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
             Create a Pawn Account
           </Card.Header>
+          {(showSuccessMsg || showWarningMsg) && (
+            <Alert variant={showSuccessMsg ? "success" : "danger"}>
+              {showSuccessMsg
+                ? "Pawn Account successfully added !"
+                : "Account Type, Name, Item Type, Item Value cannot be empty !"}
+            </Alert>
+          )}
           <Card.Body>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={2}>
+                Account Type
+              </Form.Label>
+              <Col sm={5}>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={(e) =>
+                    setDetails({
+                      ...details,
+                      accType: e.target.value.split(",")[0],
+                    }) +
+                    setInterest(e.target.value.split(",")[1]) +
+                    setAgeGroup(e.target.value.split(",")[2]) +
+                    setMaxValue(e.target.value.split(",")[3])
+                  }
+                >
+                  <option selected={!details.accType}>
+                    Select Pawn Account Type
+                  </option>
+                  {accounts.map((pawn, i) => (
+                    <option
+                      id={i}
+                      value={[
+                        pawn.accName,
+                        pawn.interestRate,
+                        pawn.ageGroup,
+                        pawn.maxVal,
+                      ]}
+                    >
+                      {pawn.accName}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+              <Form.Label column sm={5}>
+                Interest Rate(%) = {interest}
+              </Form.Label>
+            </Form.Group>
             <Form>
               <FormGroup
                 label="Name"
-                placeholder="Name"
+                placeholder="Pawner's Name"
                 name="pawnHolderName"
                 value={details.pawnHolderName}
                 onChange={setValue}
@@ -119,7 +208,7 @@ const PawnAdd = () => {
 
               <FormGroup
                 label="Age"
-                placeholder="Age"
+                placeholder={!ageGroup ? "Age" : "Should be " + ageGroup}
                 name="pawnHolderAge"
                 value={details.pawnHolderAge}
                 onChange={setValue}
@@ -135,7 +224,11 @@ const PawnAdd = () => {
 
               <FormGroup
                 label="Item Value(Rs.)"
-                placeholder="Item Value in Ruppees"
+                placeholder={
+                  !maxValue
+                    ? "Item Value in Ruppees"
+                    : "Max value is " + maxValue
+                }
                 name="itemValue"
                 value={details.itemValue}
                 onChange={setValue}
@@ -169,13 +262,16 @@ const PawnAdd = () => {
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back
                   </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => clear()}
+                    style={{ marginLeft: 100 }}
+                  >
+                    {" "}
+                    Clear
+                  </Button>
                 </Col>
               </Form.Group>
-              {showSuccessMsg && (
-                <Alert variant="success">
-                  Pawn Account successfully added !
-                </Alert>
-              )}
             </Form>
           </Card.Body>
         </Card>
