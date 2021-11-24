@@ -49,7 +49,7 @@ const Cash = () => {
                 <th>Address</th>
                 <th>Mobile</th>
                 <th>Age</th>
-                <th>Interest Rate</th>
+                <th>Interest Rate(%)</th>
                 <th>Type</th>
                 <th>Remarks</th>
                 <th colSpan={2}></th>

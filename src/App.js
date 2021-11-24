@@ -1,9 +1,9 @@
 import { Redirect, Route, Switch } from "react-router-dom";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
+import AccType from "./pages/AccountTypes/AccHome";
 import Admin from "./pages/Admin";
 import Cash from "./pages/Cash";
-import AccType from "./pages/AccountTypes/AccHome";
 import CashAdd from "./pages/CashAdd";
 import CashEdit from "./pages/CashEdit";
 import Employee from "./pages/Employee";
