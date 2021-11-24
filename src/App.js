@@ -1,14 +1,17 @@
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
+import AccType from "./pages/AccountTypes/AccHome";
 import Admin from "./pages/Admin";
 import Cash from "./pages/Cash";
-import AccType from "./pages/AccountTypes/AccHome";
 import CashAdd from "./pages/CashAdd";
 import CashEdit from "./pages/CashEdit";
 import Employee from "./pages/Employee";
 import EmployeeAdd from "./pages/EmployeeAdd";
 import EmployeeEdit from "./pages/EmployeeEdit";
+import Loan from "./pages/Loan";
+import LoanAdd from "./pages/LoanAdd";
+import LoanEdit from "./pages/LoanEdit";
 import Login from "./pages/Login";
 import Pawn from "./pages/Pawn";
 import PawnAdd from "./pages/PawnAdd";
@@ -54,6 +57,18 @@ function App() {
           </Route>
           <Route path="/pawn/:id">
             <PawnEdit />
+          </Route>
+          <Route path="/loan" exact>
+            <Loan />
+          </Route>
+          <Route path="/loan/add">
+            <LoanAdd />
+          </Route>
+          <Route path="/loan/:id">
+            <LoanEdit />
+          </Route>
+          <Route path="*">
+            <Redirect to="/" />
           </Route>
         </Switch>
       </Layout>

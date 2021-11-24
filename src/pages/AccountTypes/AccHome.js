@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Container, Tab, Row, Nav, Col } from "react-bootstrap";
+import { Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 import CashType from "./CashTypes";
 import LoanType from "./LoanTypes";
 import PawnType from "./PawnTypes";
@@ -15,15 +15,15 @@ const AccHome = () => {
         </Card>
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
           <Row>
-            <Col sm={2}>
+            <Col sm={2} className="py-3">
               <Nav variant="pills" className="flex-column">
-                <Nav.Item>
+                <Nav.Item role="button">
                   <Nav.Link eventKey="first">Cash</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item role="button">
                   <Nav.Link eventKey="second">Loan</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
+                <Nav.Item role="button">
                   <Nav.Link eventKey="third">Pawn</Nav.Link>
                 </Nav.Item>
               </Nav>
