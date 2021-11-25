@@ -39,7 +39,7 @@ const CashType = (refresh) => {
           <h4 style={{ color: "darkolivegreen" }}>Cash Account Types</h4>
           <Button
             variant="success"
-            onClick={() => history.push("/cashType/add")}
+            onClick={() => history.push("/cashTypes/add")}
           >
             <i className="bi bi-plus"></i>
             Create Cash Account Type
@@ -72,7 +72,9 @@ const CashType = (refresh) => {
                   <i
                     className="bi bi-pencil-square"
                     role="button"
-                    //   onClick={() => history.push(`/cashType/${account.accNumber}`)}
+                    onClick={() =>
+                      history.push(`/cashTypes/${account.accNumber}`)
+                    }
                   ></i>
                 </td>
                 <td align="center">
