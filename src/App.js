@@ -16,6 +16,12 @@ import Login from "./pages/Login";
 import Pawn from "./pages/Pawn";
 import PawnAdd from "./pages/PawnAdd";
 import PawnEdit from "./pages/PawnEdit";
+import CashTypesAdd from "./pages/AccountTypes/CashTypesAdd";
+import LoanTypesAdd from "./pages/AccountTypes/LoanTypesAdd";
+import PawnTypesAdd from "./pages/AccountTypes/PawnTypesAdd";
+import CashTypesEdit from "./pages/AccountTypes/CashTypesEdit";
+import LoanTypesEdit from "./pages/AccountTypes/LoanTypesEdit";
+import PawnTypesEdit from "./pages/AccountTypes/PawnTypesEdit";
 
 function App() {
   return (
@@ -30,6 +36,24 @@ function App() {
           </Route>
           <Route path="/accType">
             <AccType />
+          </Route>
+          <Route path="/cashTypes/add">
+            <CashTypesAdd />
+          </Route>
+          <Route path="/cashTypes/:id">
+            <CashTypesEdit />
+          </Route>
+          <Route path="/pawnTypes/add">
+            <PawnTypesAdd />
+          </Route>
+          <Route path="/pawnTypes/:id">
+            <PawnTypesEdit />
+          </Route>
+          <Route path="/loanTypes/add">
+            <LoanTypesAdd />
+          </Route>
+          <Route path="/loanTypes/:id">
+            <LoanTypesEdit />
           </Route>
           <Route path="/employee" exact>
             <Employee />
