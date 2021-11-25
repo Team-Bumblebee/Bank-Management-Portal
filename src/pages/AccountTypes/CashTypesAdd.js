@@ -10,7 +10,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-/* import { db } from "../firebase"; */
+import { db } from "../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -45,26 +45,28 @@ const CashTypesAdd = () => {
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
-  /*  const handleCreate = async () => {
+  const handleCreate = async () => {
     setShowSuccessMsg(false);
-    const employeeCounterDocRef = doc(db, "counters", "employees");
+    const accountTypesCounterDocRef = doc(db, "counters", "account-types");
     try {
       await runTransaction(db, async (transaction) => {
-        const employeeCounterDoc = await transaction.get(employeeCounterDocRef);
-        const newCount = employeeCounterDoc.data().count + 1;
+        const accountTypesCounterDoc = await transaction.get(
+          accountTypesCounterDocRef
+        );
+        const newCount = accountTypesCounterDoc.data().count + 1;
         let concat = "00000000" + newCount;
         transaction.set(
-          doc(db, "employees", "EM" + concat.substring(concat.length - 8)),
+          doc(db, "accounttypes", "AT" + concat.substring(concat.length - 8)),
           details
         );
-        transaction.update(employeeCounterDocRef, { count: newCount });
+        transaction.update(accountTypesCounterDocRef, { count: newCount });
       });
       setShowSuccessMsg(true);
       clear();
     } catch (e) {
       console.error(e);
     }
-  }; */
+  };
 
   const clear = () =>
     setDetails({
@@ -126,7 +128,7 @@ const CashTypesAdd = () => {
 
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 5, offset: 2 }}>
-                  <Button variant="success" /* onClick={handleCreate} */>
+                  <Button variant="success" onClick={handleCreate}>
                     Create
                   </Button>
                   <Button
