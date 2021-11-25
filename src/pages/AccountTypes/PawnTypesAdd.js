@@ -10,7 +10,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -34,6 +34,7 @@ const PawnTypesAdd = () => {
   const history = useHistory();
   const [details, setDetails] = useState({
     accName: "",
+    category: "pawn",
     maxVal: "",
     ageGroup: "",
     interestRate: "",

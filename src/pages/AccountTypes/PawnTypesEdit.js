@@ -1,8 +1,16 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
-/* import { db } from "../firebase"; */
+import { db } from "../../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -25,7 +33,7 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 const PawnTypesEdit = () => {
   const history = useHistory();
   const { id } = useParams();
-
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [details, setDetails] = useState({
     accName: "",
     maxVal: "",
@@ -37,18 +45,22 @@ const PawnTypesEdit = () => {
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
-  /*   const handleUpdate = async () => {
+  const handleUpdate = async () => {
+    setShowSuccessMsg(false);
     try {
-      await setDoc(doc(db, "employees", id), details);
+      await setDoc(doc(db, "accounttypes", id), details);
     } catch (e) {
       console.error(e);
     }
-    history.push("/accType");
+    setShowSuccessMsg(true);
+    setTimeout(() => {
+      history.push("/accType");
+    }, 2000);
   };
 
   useEffect(() => {
     (async () => {
-      const docRef = doc(db, "employees", id);
+      const docRef = doc(db, "accounttypes", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setDetails(docSnap.data());
@@ -56,7 +68,7 @@ const PawnTypesEdit = () => {
         history.push("/accType");
       }
     })();
-  }, []);  */
+  }, []);
 
   return (
     <div className="py-5">
@@ -121,9 +133,9 @@ const PawnTypesEdit = () => {
               />
 
               <Form.Group as={Row} className="mb-3">
-                <Col sm={{ span: 9, offset: 3 }}>
-                  <Button variant="success" /* onClick={handleUpdate} */>
-                    Update
+                <Col sm={{ span: 10, offset: 2 }}>
+                  <Button variant="success" onClick={handleUpdate}>
+                    Update Details
                   </Button>
                   <Button
                     variant="outline-secondary"
@@ -134,6 +146,11 @@ const PawnTypesEdit = () => {
                   </Button>
                 </Col>
               </Form.Group>
+              {showSuccessMsg && (
+                <Alert variant="success">
+                  Pawn Account Type successfully updated !
+                </Alert>
+              )}
             </Form>
           </Card.Body>
         </Card>
