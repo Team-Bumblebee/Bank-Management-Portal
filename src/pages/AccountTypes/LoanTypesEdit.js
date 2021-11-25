@@ -27,9 +27,9 @@ const LoanTypesEdit = () => {
   const { id } = useParams();
 
   const [details, setDetails] = useState({
-    type: "",
-    name: "",
-    maxValue: "",
+    accType: "",
+    accName: "",
+    maxVal: "",
     loanRate: "",
     period: "",
     remarks: "",
@@ -85,7 +85,7 @@ const LoanTypesEdit = () => {
                 label="Type"
                 placeholder="Type"
                 name="type"
-                value={details.type}
+                value={details.accType}
                 onChange={setValue}
               />
 
@@ -93,7 +93,7 @@ const LoanTypesEdit = () => {
                 label="Name"
                 placeholder="Name"
                 name="name"
-                value={details.name}
+                value={details.accName}
                 onChange={setValue}
               />
 
@@ -101,7 +101,7 @@ const LoanTypesEdit = () => {
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
                 name="maxValue"
-                value={details.maxValue}
+                value={details.maxVal}
                 onChange={setValue}
               />
 

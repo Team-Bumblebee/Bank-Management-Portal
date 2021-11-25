@@ -33,9 +33,8 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 const PawnTypesAdd = () => {
   const history = useHistory();
   const [details, setDetails] = useState({
-    type: "",
-    name: "",
-    maxValue: "",
+    accName: "",
+    maxVal: "",
     ageGroup: "",
     interestRate: "",
     remarks: "",
@@ -69,9 +68,8 @@ const PawnTypesAdd = () => {
 
   const clear = () =>
     setDetails({
-      type: "",
-      name: "",
-      maxValue: "",
+      accName: "",
+      maxVal: "",
       ageGroup: "",
       interestRate: "",
       remarks: "",
@@ -87,18 +85,10 @@ const PawnTypesAdd = () => {
           <Card.Body>
             <Form>
               <FormGroup
-                label="Type"
-                placeholder="Type"
-                name="type"
-                value={details.type}
-                onChange={setValue}
-              />
-
-              <FormGroup
                 label="Name"
                 placeholder="Name"
                 name="name"
-                value={details.name}
+                value={details.accName}
                 onChange={setValue}
               />
 
@@ -106,7 +96,7 @@ const PawnTypesAdd = () => {
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
                 name="maxValue"
-                value={details.maxValue}
+                value={details.maxVal}
                 onChange={setValue}
               />
 

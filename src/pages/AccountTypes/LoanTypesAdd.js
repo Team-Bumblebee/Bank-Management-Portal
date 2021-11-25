@@ -33,9 +33,9 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 const LoanTypesAdd = () => {
   const history = useHistory();
   const [details, setDetails] = useState({
-    type: "",
-    name: "",
-    maxValue: "",
+    accType: "",
+    accName: "",
+    maxVal: "",
     loanRate: "",
     period: "",
     remarks: "",
@@ -69,9 +69,9 @@ const LoanTypesAdd = () => {
 
   const clear = () =>
     setDetails({
-      type: "",
-      name: "",
-      maxValue: "",
+      accType: "",
+      accName: "",
+      maxVal: "",
       loanRate: "",
       period: "",
       remarks: "",
@@ -90,7 +90,7 @@ const LoanTypesAdd = () => {
                 label="Type"
                 placeholder="Type"
                 name="type"
-                value={details.type}
+                value={details.accType}
                 onChange={setValue}
               />
 
@@ -98,7 +98,7 @@ const LoanTypesAdd = () => {
                 label="Name"
                 placeholder="Name"
                 name="name"
-                value={details.name}
+                value={details.accName}
                 onChange={setValue}
               />
 
@@ -106,7 +106,7 @@ const LoanTypesAdd = () => {
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
                 name="maxValue"
-                value={details.maxValue}
+                value={details.maxVal}
                 onChange={setValue}
               />
 

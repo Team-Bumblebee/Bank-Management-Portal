@@ -27,8 +27,8 @@ const CashTypesEdit = () => {
   const { id } = useParams();
 
   const [details, setDetails] = useState({
-    type: "",
-    name: "",
+    accType: "",
+    accName: "",
     ageGroup: "",
     interestRate: "",
     remarks: "",
@@ -84,7 +84,7 @@ const CashTypesEdit = () => {
                 label="Type"
                 placeholder="Type"
                 name="type"
-                value={details.type}
+                value={details.accType}
                 onChange={setValue}
               />
 
@@ -92,7 +92,7 @@ const CashTypesEdit = () => {
                 label="Name"
                 placeholder="Name"
                 name="name"
-                value={details.name}
+                value={details.accName}
                 onChange={setValue}
               />
 

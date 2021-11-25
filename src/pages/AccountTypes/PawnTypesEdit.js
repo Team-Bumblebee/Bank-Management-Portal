@@ -27,9 +27,8 @@ const PawnTypesEdit = () => {
   const { id } = useParams();
 
   const [details, setDetails] = useState({
-    type: "",
-    name: "",
-    maxValue: "",
+    accName: "",
+    maxVal: "",
     ageGroup: "",
     interestRate: "",
     remarks: "",
@@ -82,18 +81,10 @@ const PawnTypesEdit = () => {
             </Form.Group>
             <Form>
               <FormGroup
-                label="Type"
-                placeholder="Type"
-                name="type"
-                value={details.type}
-                onChange={setValue}
-              />
-
-              <FormGroup
                 label="Name"
                 placeholder="Name"
                 name="name"
-                value={details.name}
+                value={details.accName}
                 onChange={setValue}
               />
 
@@ -101,7 +92,7 @@ const PawnTypesEdit = () => {
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
                 name="maxValue"
-                value={details.maxValue}
+                value={details.maxVal}
                 onChange={setValue}
               />
 

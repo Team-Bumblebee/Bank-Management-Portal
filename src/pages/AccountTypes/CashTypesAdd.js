@@ -33,8 +33,8 @@ const FormGroup = ({ label, placeholder, name, value, onChange }) => {
 const CashTypesAdd = () => {
   const history = useHistory();
   const [details, setDetails] = useState({
-    type: "",
-    name: "",
+    accType: "",
+    accName: "",
     ageGroup: "",
     interestRate: "",
     remarks: "",
@@ -68,8 +68,8 @@ const CashTypesAdd = () => {
 
   const clear = () =>
     setDetails({
-      type: "",
-      name: "",
+      accType: "",
+      accName: "",
       ageGroup: "",
       interestRate: "",
       remarks: "",
@@ -88,7 +88,7 @@ const CashTypesAdd = () => {
                 label="Type"
                 placeholder="Type"
                 name="type"
-                value={details.type}
+                value={details.accType}
                 onChange={setValue}
               />
 
@@ -96,7 +96,7 @@ const CashTypesAdd = () => {
                 label="Name"
                 placeholder="Name"
                 name="name"
-                value={details.name}
+                value={details.accName}
                 onChange={setValue}
               />
 
