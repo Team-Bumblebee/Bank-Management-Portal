@@ -51,6 +51,7 @@ const Cash = () => {
                 <th>Age</th>
                 <th>Interest Rate(%)</th>
                 <th>Type</th>
+                <th>Account</th>
                 <th>Remarks</th>
                 <th colSpan={2}></th>
               </tr>
@@ -65,6 +66,7 @@ const Cash = () => {
                   <td>{account.accHolderAge}</td>
                   <td>{account.interestRate}</td>
                   <td>{account.type}</td>
+                  <td>{account.accName}</td>
                   <td>{account.remarks}</td>
                   <td align="center">
                     <i
