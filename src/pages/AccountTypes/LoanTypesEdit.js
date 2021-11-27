@@ -96,7 +96,7 @@ const LoanTypesEdit = () => {
               <FormGroup
                 label="Type"
                 placeholder="Type"
-                name="type"
+                name="accType"
                 value={details.accType}
                 onChange={setValue}
               />
@@ -104,7 +104,7 @@ const LoanTypesEdit = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -112,7 +112,7 @@ const LoanTypesEdit = () => {
               <FormGroup
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
-                name="maxValue"
+                name="maxVal"
                 value={details.maxVal}
                 onChange={setValue}
               />

@@ -73,6 +73,7 @@ const CashTypesAdd = () => {
     setDetails({
       accType: "",
       accName: "",
+      category: "cash",
       ageGroup: "",
       interestRate: "",
       remarks: "",
@@ -90,7 +91,7 @@ const CashTypesAdd = () => {
               <FormGroup
                 label="Type"
                 placeholder="Type"
-                name="type"
+                name="accType"
                 value={details.accType}
                 onChange={setValue}
               />
@@ -98,7 +99,7 @@ const CashTypesAdd = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
