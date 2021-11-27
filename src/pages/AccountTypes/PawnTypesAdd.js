@@ -73,6 +73,7 @@ const PawnTypesAdd = () => {
     setDetails({
       accName: "",
       maxVal: "",
+      category: "pawn",
       ageGroup: "",
       interestRate: "",
       remarks: "",
@@ -90,7 +91,7 @@ const PawnTypesAdd = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -98,7 +99,7 @@ const PawnTypesAdd = () => {
               <FormGroup
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
-                name="maxValue"
+                name="maxVal"
                 value={details.maxVal}
                 onChange={setValue}
               />
