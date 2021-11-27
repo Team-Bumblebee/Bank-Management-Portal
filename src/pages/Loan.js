@@ -14,9 +14,9 @@ const Loan = () => {
 
   useEffect(() => {
     (async () => {
-      const querySnapshot = await getDocs(collection(db, "pawnaccounts"));
+      const querySnapshot = await getDocs(collection(db, "loanaccounts"));
       setAccounts(
-        querySnapshot.docs.map((doc) => ({ pawnNumber: doc.id, ...doc.data() }))
+        querySnapshot.docs.map((doc) => ({ loanNumber: doc.id, ...doc.data() }))
       );
     })();
   }, [show]);
@@ -27,59 +27,63 @@ const Loan = () => {
         show={show}
         setShow={setShow}
         id={id}
-        collection="pawnaccounts"
+        collection="loanaccounts"
       />
 
       <Container>
         <Card border="success" className="mb-2" body>
           <div className="d-flex justify-content-between">
-            <h4 style={{ color: "darkolivegreen" }}>Pawning Department</h4>
-            <Button variant="success" onClick={() => history.push("/pawn/add")}>
+            <h4 style={{ color: "darkolivegreen" }}>Loan Department</h4>
+            <Button variant="success" onClick={() => history.push("/loan/add")}>
               <i className="bi bi-plus"></i>
-              New Pawn Account
+              New Loan Account
             </Button>
           </div>
         </Card>
         <Card border="success" body>
           <Table striped bordered hover>
-            <thead>
+            <thead align="center">
               <tr>
-                <th>Account Number</th>
-                <th>Name</th>
+                <th>Account ID</th>
+                <th>Loan Holder's Name</th>
                 <th>Address</th>
                 <th>Mobile</th>
                 <th>Age</th>
-                <th>Item Type</th>
-                <th>Item Value(Rs.)</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Loan Name</th>
+                <th>Loan Rate</th>
                 <th>Duration</th>
                 <th>Description</th>
                 <th colSpan={2}></th>
               </tr>
             </thead>
-            <tbody>
-              {accounts.map((pawn) => (
-                <tr key={pawn.pawnNumber}>
-                  <td>{pawn.pawnNumber}</td>
-                  <td>{pawn.pawnHolderName}</td>
-                  <td>{pawn.pawnHolderAddress}</td>
-                  <td>{pawn.pawnHolderMobileNo}</td>
-                  <td>{pawn.pawnHolderAge}</td>
-                  <td>{pawn.itemType}</td>
-                  <td>{pawn.itemValue}</td>
-                  <td>{pawn.duration} years</td>
-                  <td>{pawn.description}</td>
+            <tbody align="center">
+              {accounts.map((loan) => (
+                <tr key={loan.loanNumber}>
+                  <td>{loan.loanNumber}</td>
+                  <td>{loan.loanHolderName}</td>
+                  <td>{loan.loanHolderAddress}</td>
+                  <td>{loan.loanHolderMobileNo}</td>
+                  <td>{loan.loanHolderAge}</td>
+                  <td>{loan.amount}</td>
+                  <td>{loan.accType}</td>
+                  <td>{loan.accName}</td>
+                  <td>{loan.loanRate}</td>
+                  <td>{loan.duration} years</td>
+                  <td>{loan.description}</td>
                   <td align="center">
                     <i
                       className="bi bi-pencil-square"
                       role="button"
-                      onClick={() => history.push(`/pawn/${pawn.pawnNumber}`)}
+                      onClick={() => history.push(`/loan/${loan.loanNumber}`)}
                     ></i>
                   </td>
                   <td align="center">
                     <i
                       className="bi bi-trash-fill"
                       role="button"
-                      onClick={() => setShow(true) + setID(pawn.pawnNumber)}
+                      onClick={() => setShow(true) + setID(loan.loanNumber)}
                     ></i>
                   </td>
                 </tr>
