@@ -42,7 +42,7 @@ const Cash = () => {
         </Card>
         <Card border="success" body>
           <Table striped bordered hover>
-            <thead>
+            <thead align="center">
               <tr>
                 <th>Account Number</th>
                 <th>Name</th>
@@ -56,7 +56,7 @@ const Cash = () => {
                 <th colSpan={2}></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody align="center">
               {accounts.map((account) => (
                 <tr key={account.accNumber}>
                   <td>{account.accNumber}</td>
