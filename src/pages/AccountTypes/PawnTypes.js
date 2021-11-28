@@ -42,7 +42,7 @@ const PawnType = (refresh) => {
             onClick={() => history.push("/pawnTypes/add")}
           >
             <i className="bi bi-plus"></i>
-            Create Pawn Account Type
+            Add Pawn Account Type
           </Button>
         </div>
       </Card>

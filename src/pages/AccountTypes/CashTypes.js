@@ -42,7 +42,7 @@ const CashType = (refresh) => {
             onClick={() => history.push("/cashTypes/add")}
           >
             <i className="bi bi-plus"></i>
-            Create Cash Account Type
+            Add Cash Account Type
           </Button>
         </div>
       </Card>
