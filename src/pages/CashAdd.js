@@ -94,6 +94,9 @@ const CashAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push("/cash");
+      }, 2000);
     } catch (e) {
       console.error(e);
     }

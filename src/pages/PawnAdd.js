@@ -148,7 +148,6 @@ const PawnAdd = () => {
               </Form.Label>
               <Col sm={5}>
                 <Form.Select
-                  value="defaultValue"
                   onChange={(e) =>
                     setDetails({
                       ...details,
@@ -160,9 +159,10 @@ const PawnAdd = () => {
                   }
                 >
                   <option value="defaultValue">Select Pawn Account Type</option>
-                  {accounts.map((pawn) => (
+                  {accounts.map((pawn, i) => (
                     <option
                       key={pawn.accName}
+                      id={i}
                       value={[
                         pawn.accName,
                         pawn.interestRate,

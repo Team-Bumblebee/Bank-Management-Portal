@@ -31,8 +31,10 @@ const EmployeeEdit = () => {
     address: "",
     mobileNo: "",
     age: "",
-    gender: "",
+    gender: "Male",
     email: "",
+    password: "",
+    department: "admin",
     position: "",
     salary: "",
   });
@@ -115,21 +117,39 @@ const EmployeeEdit = () => {
                 onChange={setValue}
               />
 
-              <FormGroup
-                label="Gender"
-                placeholder="Gender"
-                name="gender"
-                value={details.gender}
-                onChange={setValue}
-              />
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3}>
+                  Gender
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Select
+                    name="gender"
+                    value={details.gender}
+                    onChange={setValue}
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </Form.Select>
+                </Col>
+              </Form.Group>
 
-              <FormGroup
-                label="Email"
-                placeholder="Email"
-                name="email"
-                value={details.email}
-                onChange={setValue}
-              />
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3}>
+                  Department
+                </Form.Label>
+                <Col sm={9}>
+                  <Form.Select
+                    name="department"
+                    value={details.department}
+                    onChange={setValue}
+                  >
+                    <option value="admin">Administration</option>
+                    <option value="cash">Accounts</option>
+                    <option value="pawn">Pawn</option>
+                    <option value="loan">Loan</option>
+                  </Form.Select>
+                </Col>
+              </Form.Group>
 
               <FormGroup
                 label="Position"
