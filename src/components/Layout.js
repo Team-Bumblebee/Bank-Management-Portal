@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" style={{ minHeight: "70px" }}>
         <Container>
           <Navbar.Brand
             onClick={() =>
@@ -59,7 +59,7 @@ const Layout = ({ children }) => {
           {user && (
             <Nav className="me-auto">
               <Nav.Link role="banner">
-                {userDetails && `Welcome ${userDetails.name}`}
+                {userDetails && `Welcome, ${userDetails.name}`}
               </Nav.Link>
             </Nav>
           )}
@@ -69,7 +69,9 @@ const Layout = ({ children }) => {
               <Nav.Link>
                 <Button
                   variant="dark"
-                  style={{ backgroundColor: "lightslategrey" }}
+                  style={{
+                    backgroundColor: "lightslategrey",
+                  }}
                   onClick={handleShow}
                 >
                   LOGOUT

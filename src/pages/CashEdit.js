@@ -54,8 +54,14 @@ const CashEdit = () => {
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleUpdate = async () => {
+    const { accName, accType: type, interestRate } = accounts[selectedAccount];
     try {
-      await setDoc(doc(db, "cashaccounts", id), details);
+      await setDoc(doc(db, "cashaccounts", id), {
+        ...details,
+        accName,
+        type,
+        interestRate,
+      });
     } catch (e) {
       console.error(e);
     }
@@ -78,15 +84,11 @@ const CashEdit = () => {
       setAccountTypes(
         Array.from(new Set(querySnapshot.docs.map((doc) => doc.data().accType)))
       );
-      setSelectedType(querySnapshot.docs[0].data().accType);
+      setSelectedType(docSnap.data().type);
       setAccounts(
         querySnapshot.docs.map((doc, index) => ({ index, ...doc.data() }))
       );
-      setSelectedAccount(
-        querySnapshot.docs.findIndex(
-          (doc) => doc.data().accName === docSnap.data().accName
-        )
-      );
+      setSelectedAccount(docSnap.data().accName);
       setDetails(docSnap.data());
     })();
   }, []);

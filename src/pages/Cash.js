@@ -15,6 +15,7 @@ const Cash = () => {
   useEffect(() => {
     (async () => {
       const querySnapshot = await getDocs(collection(db, "cashaccounts"));
+
       setAccounts(
         querySnapshot.docs.map((doc) => ({ accNumber: doc.id, ...doc.data() }))
       );
@@ -36,7 +37,7 @@ const Cash = () => {
             <h4 style={{ color: "darkolivegreen" }}>Accounts Department</h4>
             <Button variant="success" onClick={() => history.push("/cash/add")}>
               <i className="bi bi-plus"></i>
-              Create Cash Account
+              New Cash Account
             </Button>
           </div>
         </Card>

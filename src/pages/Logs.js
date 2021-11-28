@@ -1,17 +1,45 @@
+import compareDesc from "date-fns/compareDesc";
+import format from "date-fns/format";
 import { collection, getDocs } from "firebase/firestore";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Button, Card, Container, Table } from "react-bootstrap";
 import { db } from "../firebase";
+import isEqual from "date-fns/isEqual";
 
 const Logs = () => {
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [logs, setLogs] = useState([]);
+  const [logView, setLogView] = useState([]);
+
+  const filterDates = (e) => {
+    setDate(e.target.value);
+    setLogView(
+      logs.filter((log) =>
+        compareWithoutTime(log.timestamp.toDate(), new Date(e.target.value))
+      )
+    );
+  };
+
+  const compareWithoutTime = (left, right) => {
+    left.setHours(0, 0, 0, 0);
+    right.setHours(0, 0, 0, 0);
+    return isEqual(left, right);
+  };
 
   useEffect(() => {
     (async () => {
       const snap = await getDocs(collection(db, "logs"));
-      setLogs(snap.docs.map((doc) => doc.data()));
+      const logArr = snap.docs
+        .map((doc) => doc.data())
+        .sort((a, b) =>
+          compareDesc(a.timestamp.toDate(), b.timestamp.toDate())
+        );
+      setLogs(logArr);
+      setLogView(
+        logArr.filter((log) =>
+          compareWithoutTime(log.timestamp.toDate(), new Date())
+        )
+      );
     })();
   }, []);
 
@@ -25,14 +53,14 @@ const Logs = () => {
               type="date"
               name="date"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={filterDates}
             ></input>
           </div>
         </Card>
         <Card border="success" body>
           <Accordion>
-            {logs.length !== 0 &&
-              logs.map((log, idx) => {
+            {logView.length !== 0 &&
+              logView.map((log, idx) => {
                 const { id, ...values } = log.data;
                 const color =
                   log.type === "create"
@@ -46,7 +74,10 @@ const Logs = () => {
                       Document has been &nbsp;
                       <Button variant={color}>{log.type}d</Button>
                       &nbsp;
-                      {`with ID: ${id} on ${log.timestamp.toDate().toString()}`}
+                      {`with ID: ${id} at ${format(
+                        log.timestamp.toDate(),
+                        "HH:mm"
+                      )}`}
                     </Accordion.Header>
                     <Accordion.Body>
                       <Table striped bordered hover>
