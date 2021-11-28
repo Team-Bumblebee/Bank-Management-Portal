@@ -55,6 +55,7 @@ const Layout = ({ children }) => {
             />
             Bank Management Portal
           </Navbar.Brand>
+
           {user && (
             <Nav className="me-auto">
               <Nav.Link>
@@ -62,12 +63,13 @@ const Layout = ({ children }) => {
               </Nav.Link>
             </Nav>
           )}
+
           {user && (
             <Nav className="justify-content-end">
               <Nav.Link>
                 <Button
                   variant="dark"
-                  style={{ backgroundColor: "darkslategrey" }}
+                  style={{ backgroundColor: "lightslategrey" }}
                   onClick={handleShow}
                 >
                   LOGOUT
@@ -87,7 +89,7 @@ const Layout = ({ children }) => {
       </div>
       <Card.Footer
         className="text-center"
-        style={{ color: "darkgreen", backgroundColor: "lightgrey" }}
+        style={{ backgroundColor: "lightgrey" }}
       >
         <i>Developed by Team Bumblebee</i>
       </Card.Footer>
