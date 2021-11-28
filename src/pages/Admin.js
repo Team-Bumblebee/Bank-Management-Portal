@@ -40,7 +40,7 @@ const Admin = () => {
           <AdminButton onClick={() => history.push("/employee")}>
             Employee Details
           </AdminButton>
-          <AdminButton onClick={() => history.push("/accType")}>
+          <AdminButton onClick={() => history.push(`/accType/${"first"}`)}>
             Account Types
           </AdminButton>
           <AdminButton onClick={() => history.push("/logs")}>

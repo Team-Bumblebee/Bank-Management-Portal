@@ -36,7 +36,7 @@ function App() {
           <Route path="/admin">
             <Admin />
           </Route>
-          <Route path="/accType">
+          <Route path="/accType/:id">
             <AccType />
           </Route>
           <Route path="/cashTypes/add">

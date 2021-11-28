@@ -135,7 +135,7 @@ const CashTypesAdd = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"first"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back
@@ -144,7 +144,7 @@ const CashTypesAdd = () => {
               </Form.Group>
               {showSuccessMsg && (
                 <Alert variant="success">
-                  CAsh Account Type successfully added !
+                  Cash Account Type successfully added !
                 </Alert>
               )}
             </Form>
