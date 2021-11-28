@@ -64,6 +64,9 @@ const PawnTypesAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push(`/accType/${"third"}`);
+      }, 2000);
     } catch (e) {
       console.error(e);
     }
@@ -73,6 +76,7 @@ const PawnTypesAdd = () => {
     setDetails({
       accName: "",
       maxVal: "",
+      category: "pawn",
       ageGroup: "",
       interestRate: "",
       remarks: "",
@@ -90,7 +94,7 @@ const PawnTypesAdd = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -98,7 +102,7 @@ const PawnTypesAdd = () => {
               <FormGroup
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
-                name="maxValue"
+                name="maxVal"
                 value={details.maxVal}
                 onChange={setValue}
               />
@@ -134,7 +138,7 @@ const PawnTypesAdd = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"third"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

@@ -1,3 +1,11 @@
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  runTransaction,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
@@ -10,14 +18,6 @@ import {
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
-import {
-  collection,
-  getDocs,
-  doc,
-  runTransaction,
-  query,
-  where,
-} from "firebase/firestore";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -67,7 +67,8 @@ const PawnAdd = () => {
       details.accType &&
       details.pawnHolderName &&
       details.itemType &&
-      details.itemValue
+      details.itemValue &&
+      details.duration
     ) {
       setShowWarningMsg(false);
       setShowSuccessMsg(false);
@@ -138,7 +139,7 @@ const PawnAdd = () => {
             <Alert variant={showSuccessMsg ? "success" : "danger"}>
               {showSuccessMsg
                 ? "Pawn Account successfully added !"
-                : "Account Type, Name, Item Type, Item Value cannot be empty !"}
+                : "Account Type, Name, Item Type, Item Value, Duration cannot be empty !"}
             </Alert>
           )}
           <Card.Body>
@@ -148,7 +149,6 @@ const PawnAdd = () => {
               </Form.Label>
               <Col sm={5}>
                 <Form.Select
-                  aria-label="Default select example"
                   onChange={(e) =>
                     setDetails({
                       ...details,
@@ -164,6 +164,7 @@ const PawnAdd = () => {
                   </option>
                   {accounts.map((pawn, i) => (
                     <option
+                      key={pawn.accName}
                       id={i}
                       value={[
                         pawn.accName,
@@ -267,7 +268,6 @@ const PawnAdd = () => {
                     onClick={() => clear()}
                     style={{ marginLeft: 100 }}
                   >
-                    {" "}
                     Clear
                   </Button>
                 </Col>

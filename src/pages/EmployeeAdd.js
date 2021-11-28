@@ -1,4 +1,4 @@
-import { doc, runTransaction } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
 import React, { useState } from "react";
 import {
   Alert,
@@ -8,9 +8,10 @@ import {
   Container,
   Form,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { db } from "../firebase";
+import { functions } from "../firebase";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -37,35 +38,52 @@ const EmployeeAdd = () => {
     address: "",
     mobileNo: "",
     age: "",
-    gender: "",
+    gender: "Male",
     email: "",
+    password: "",
+    department: "admin",
     position: "",
     salary: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
+  const validate = () => {
+    const email = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (
+      email.test(details.email) &&
+      details.password.length >= 6 &&
+      details.name !== ""
+    )
+      return true;
+    else return false;
+  };
+
   const handleCreate = async () => {
     setShowSuccessMsg(false);
-    const employeeCounterDocRef = doc(db, "counters", "employees");
-    try {
-      await runTransaction(db, async (transaction) => {
-        const employeeCounterDoc = await transaction.get(employeeCounterDocRef);
-        const newCount = employeeCounterDoc.data().count + 1;
-        let concat = "00000000" + newCount;
-        transaction.set(
-          doc(db, "employees", "EM" + concat.substring(concat.length - 8)),
-          details
-        );
-        transaction.update(employeeCounterDocRef, { count: newCount });
-      });
-      setShowSuccessMsg(true);
-      clear();
-    } catch (e) {
-      console.error(e);
+    setError(false);
+    if (validate()) {
+      setLoading(true);
+      try {
+        const addEmployee = httpsCallable(functions, "addEmployee");
+        await addEmployee({ details });
+        setShowSuccessMsg(true);
+        clear();
+      } catch (e) {
+        setErrorMsg("Please try again !");
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setErrorMsg("Please enter valide Employee Name, Email, Password !");
+      setError(true);
     }
   };
 
@@ -75,8 +93,10 @@ const EmployeeAdd = () => {
       address: "",
       mobileNo: "",
       age: "",
-      gender: "",
+      gender: "Male",
       email: "",
+      password: "",
+      department: "admin",
       position: "",
       salary: "",
     });
@@ -92,7 +112,7 @@ const EmployeeAdd = () => {
             <Form>
               <FormGroup
                 label="Name"
-                placeholder="Name"
+                placeholder="Employee Name"
                 name="name"
                 value={details.name}
                 onChange={setValue}
@@ -122,13 +142,21 @@ const EmployeeAdd = () => {
                 onChange={setValue}
               />
 
-              <FormGroup
-                label="Gender"
-                placeholder="Gender"
-                name="gender"
-                value={details.gender}
-                onChange={setValue}
-              />
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                  Gender
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    name="gender"
+                    value={details.gender}
+                    onChange={setValue}
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </Form.Select>
+                </Col>
+              </Form.Group>
 
               <FormGroup
                 label="Email"
@@ -137,6 +165,39 @@ const EmployeeAdd = () => {
                 value={details.email}
                 onChange={setValue}
               />
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                  Password
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    placeholder="Password (at least 6 characters)"
+                    name="password"
+                    type="password"
+                    value={details.password}
+                    onChange={setValue}
+                  />
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                  Department
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    name="department"
+                    value={details.department}
+                    onChange={setValue}
+                  >
+                    <option value="admin">Administration</option>
+                    <option value="cash">Accounts</option>
+                    <option value="pawn">Pawn</option>
+                    <option value="loan">Loan</option>
+                  </Form.Select>
+                </Col>
+              </Form.Group>
 
               <FormGroup
                 label="Position"
@@ -156,9 +217,15 @@ const EmployeeAdd = () => {
 
               <Form.Group as={Row} className="mb-3">
                 <Col sm={{ span: 5, offset: 2 }}>
-                  <Button variant="success" onClick={handleCreate}>
-                    Create
-                  </Button>
+                  {!loading ? (
+                    <Button variant="success" onClick={handleCreate}>
+                      Create
+                    </Button>
+                  ) : (
+                    <Spinner animation="border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  )}
                   <Button
                     variant="outline-secondary"
                     onClick={() => history.push("/employee")}
@@ -171,6 +238,7 @@ const EmployeeAdd = () => {
               {showSuccessMsg && (
                 <Alert variant="success">Employee successfully added !</Alert>
               )}
+              {error && <Alert variant="danger">{errorMsg}</Alert>}
             </Form>
           </Card.Body>
         </Card>

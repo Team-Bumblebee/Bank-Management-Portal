@@ -1,9 +1,16 @@
 import { Redirect, Route, Switch } from "react-router-dom";
+import "./App.css";
 import Layout from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
+import AccType from "./pages/AccountTypes/AccHome";
+import CashTypesAdd from "./pages/AccountTypes/CashTypesAdd";
+import CashTypesEdit from "./pages/AccountTypes/CashTypesEdit";
+import LoanTypesAdd from "./pages/AccountTypes/LoanTypesAdd";
+import LoanTypesEdit from "./pages/AccountTypes/LoanTypesEdit";
+import PawnTypesAdd from "./pages/AccountTypes/PawnTypesAdd";
+import PawnTypesEdit from "./pages/AccountTypes/PawnTypesEdit";
 import Admin from "./pages/Admin";
 import Cash from "./pages/Cash";
-import AccType from "./pages/AccountTypes/AccHome";
 import CashAdd from "./pages/CashAdd";
 import CashEdit from "./pages/CashEdit";
 import Employee from "./pages/Employee";
@@ -13,15 +20,10 @@ import Loan from "./pages/Loan";
 import LoanAdd from "./pages/LoanAdd";
 import LoanEdit from "./pages/LoanEdit";
 import Login from "./pages/Login";
+import Logs from "./pages/Logs";
 import Pawn from "./pages/Pawn";
 import PawnAdd from "./pages/PawnAdd";
 import PawnEdit from "./pages/PawnEdit";
-import CashTypesAdd from "./pages/AccountTypes/CashTypesAdd";
-import LoanTypesAdd from "./pages/AccountTypes/LoanTypesAdd";
-import PawnTypesAdd from "./pages/AccountTypes/PawnTypesAdd";
-import CashTypesEdit from "./pages/AccountTypes/CashTypesEdit";
-import LoanTypesEdit from "./pages/AccountTypes/LoanTypesEdit";
-import PawnTypesEdit from "./pages/AccountTypes/PawnTypesEdit";
 
 function App() {
   return (
@@ -34,7 +36,7 @@ function App() {
           <Route path="/admin">
             <Admin />
           </Route>
-          <Route path="/accType">
+          <Route path="/accType/:id">
             <AccType />
           </Route>
           <Route path="/cashTypes/add">
@@ -90,6 +92,9 @@ function App() {
           </Route>
           <Route path="/loan/:id">
             <LoanEdit />
+          </Route>
+          <Route path="/logs">
+            <Logs />
           </Route>
           <Route path="*">
             <Redirect to="/" />

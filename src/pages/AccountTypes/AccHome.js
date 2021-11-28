@@ -3,10 +3,11 @@ import { Card, Col, Container, Nav, Row, Tab } from "react-bootstrap";
 import CashType from "./CashTypes";
 import LoanType from "./LoanTypes";
 import PawnType from "./PawnTypes";
+import { useParams } from "react-router-dom";
 
 const AccHome = () => {
   const [refresh, setRefresh] = useState(false);
-
+  const { id } = useParams();
   return (
     <div className="py-5">
       <Container>
@@ -17,22 +18,24 @@ const AccHome = () => {
         </Card>
         <Tab.Container
           id="left-tabs-example"
-          defaultActiveKey="first"
+          defaultActiveKey={id}
           onSelect={() => setRefresh(!refresh)}
         >
           <Row>
             <Col sm={2} className="py-3">
-              <Nav variant="pills" className="flex-column">
-                <Nav.Item role="button">
-                  <Nav.Link eventKey="first">Cash</Nav.Link>
-                </Nav.Item>
-                <Nav.Item role="button">
-                  <Nav.Link eventKey="second">Loan</Nav.Link>
-                </Nav.Item>
-                <Nav.Item role="button">
-                  <Nav.Link eventKey="third">Pawn</Nav.Link>
-                </Nav.Item>
-              </Nav>
+              <Card border="success">
+                <Nav variant="pills" className="flex-column">
+                  <Nav.Item role="button">
+                    <Nav.Link eventKey="first">Cash</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item role="button">
+                    <Nav.Link eventKey="second">Loan</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item role="button">
+                    <Nav.Link eventKey="third">Pawn</Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Card>
             </Col>
             <Col sm={10}>
               <Tab.Content>

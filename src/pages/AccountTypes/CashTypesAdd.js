@@ -64,6 +64,9 @@ const CashTypesAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push(`/accType/${"first"}`);
+      }, 2000);
     } catch (e) {
       console.error(e);
     }
@@ -73,6 +76,7 @@ const CashTypesAdd = () => {
     setDetails({
       accType: "",
       accName: "",
+      category: "cash",
       ageGroup: "",
       interestRate: "",
       remarks: "",
@@ -90,7 +94,7 @@ const CashTypesAdd = () => {
               <FormGroup
                 label="Type"
                 placeholder="Type"
-                name="type"
+                name="accType"
                 value={details.accType}
                 onChange={setValue}
               />
@@ -98,7 +102,7 @@ const CashTypesAdd = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -134,7 +138,7 @@ const CashTypesAdd = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"first"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back
@@ -143,7 +147,7 @@ const CashTypesAdd = () => {
               </Form.Group>
               {showSuccessMsg && (
                 <Alert variant="success">
-                  CAsh Account Type successfully added !
+                  Cash Account Type successfully added !
                 </Alert>
               )}
             </Form>

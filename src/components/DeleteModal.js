@@ -12,7 +12,7 @@ const DeleteModal = ({ show, setShow, id, collection }) => {
   const deleteEntry = async () => {
     setLoading(true);
     try {
-      await deleteDoc(doc(db, collection, id)); //without account number decrement
+      await deleteDoc(doc(db, collection, id));
       setconfirmShow(true);
     } catch (e) {
       console.error(e);

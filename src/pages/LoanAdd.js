@@ -1,5 +1,12 @@
-import { doc, runTransaction } from "firebase/firestore";
-import React, { useState } from "react";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  runTransaction,
+  where,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -34,110 +41,208 @@ const LoanAdd = () => {
   const history = useHistory();
 
   const [details, setDetails] = useState({
-    pawnHolderName: "",
-    pawnHolderAddress: "",
-    pawnHolderMobileNo: "",
-    pawnHolderAge: "",
-    itemType: "",
-    itemValue: "",
+    loanHolderName: "",
+    loanHolderAddress: "",
+    loanHolderMobileNo: "",
+    loanHolderAge: "",
+    amount: "",
+    accType: "",
+    accName: "",
+    loanRate: "",
     duration: "",
     description: "",
   });
 
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [showWarningMsg, setShowWarningMsg] = useState(false);
+
+  const [accountTypes, setAccountTypes] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
+  const [accounts, setAccounts] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState();
+
+  useEffect(() => {
+    if (selectedAccount !== undefined)
+      setDetails((details) => ({
+        ...details,
+        loanRate: accounts[selectedAccount].loanRate,
+        duration: accounts[selectedAccount].period,
+      }));
+  }, [selectedAccount]);
 
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
-    setShowSuccessMsg(false);
-    const pawnCounterDocRef = doc(db, "counters", "pawn-accounts");
-    try {
-      await runTransaction(db, async (transaction) => {
-        const pawnCounterDoc = await transaction.get(pawnCounterDocRef);
-        const newCount = pawnCounterDoc.data().count + 1;
-        let concat = "0000000" + newCount;
-        transaction.set(
-          doc(db, "pawnaccounts", "PA" + concat.substring(concat.length - 8)),
-          details
-        );
-        transaction.update(pawnCounterDocRef, { count: newCount });
-      });
-      setShowSuccessMsg(true);
-      clear();
-      history.push("/pawn");
-    } catch (e) {
-      console.error(e);
+    const { accName, accType, loanRate } = accounts[selectedAccount];
+    if (accType && details.loanHolderName && accName && details.amount) {
+      setShowWarningMsg(false);
+      setShowSuccessMsg(false);
+      const loanCounterDocRef = doc(db, "counters", "loan-accounts");
+      try {
+        await runTransaction(db, async (transaction) => {
+          const loanCounterDoc = await transaction.get(loanCounterDocRef);
+          const newCount = loanCounterDoc.data().count + 1;
+          let concat = "0000000" + newCount;
+          transaction.set(
+            doc(db, "loanaccounts", "LA" + concat.substring(concat.length - 8)),
+            { ...details, accName, accType, loanRate }
+          );
+          transaction.update(loanCounterDocRef, { count: newCount });
+        });
+        setShowSuccessMsg(true);
+        clear();
+        setTimeout(() => {
+          history.push("/loan");
+        }, 2000);
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      setShowWarningMsg(true);
     }
   };
 
   const clear = () => {
+    setShowWarningMsg(false);
     setDetails({
-      pawnHolderName: "",
-      pawnHolderAddress: "",
-      pawnHolderMobileNo: "",
-      pawnHolderAge: "",
-      itemType: "",
-      itemValue: "",
+      loanHolderName: "",
+      loanHolderAddress: "",
+      loanHolderMobileNo: "",
+      loanHolderAge: "",
+      amount: "",
+      accType: "",
+      accName: "",
+      loanRate: "",
       duration: "",
       description: "",
     });
   };
+
+  useEffect(() => {
+    (async () => {
+      const q = query(
+        collection(db, "accounttypes"),
+        where("category", "==", "loan")
+      );
+      const querySnapshot = await getDocs(q);
+      setAccountTypes(
+        Array.from(new Set(querySnapshot.docs.map((doc) => doc.data().accType)))
+      );
+      setSelectedType(querySnapshot.docs[0].data().accType);
+      setAccounts(
+        querySnapshot.docs.map((doc, index) => ({ index, ...doc.data() }))
+      );
+      setSelectedAccount(0);
+    })();
+  }, []);
 
   return (
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card style={{ width: "60%" }} border="success">
           <Card.Header as="h5" style={{ color: "darkolivegreen" }}>
-            Create a Pawn Account
+            Create a Loan Account
           </Card.Header>
+          {(showSuccessMsg || showWarningMsg) && (
+            <Alert variant={showSuccessMsg ? "success" : "danger"}>
+              {showSuccessMsg
+                ? "Loan Account successfully added !"
+                : "Account type, Account Name, Loan Holder's Name, Amount cannot be empty !"}
+            </Alert>
+          )}
           <Card.Body>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={2}>
+                Account Type
+              </Form.Label>
+              <Col sm={10}>
+                <Form.Select
+                  value={selectedType}
+                  onChange={(e) =>
+                    setSelectedType(e.target.value) +
+                    setSelectedAccount(
+                      accounts.findIndex(
+                        (account) => account.accType === e.target.value
+                      )
+                    )
+                  }
+                >
+                  {accountTypes.map((accountType) => (
+                    <option key={accountType} value={accountType}>
+                      {accountType}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={2}>
+                Account Name
+              </Form.Label>
+              <Col sm={10}>
+                <Form.Select
+                  value={selectedAccount}
+                  onChange={(e) => setSelectedAccount(e.target.value)}
+                >
+                  {accounts
+                    .filter((account) => account.accType === selectedType)
+                    .map((account) => (
+                      <option key={account.accName} value={account.index}>
+                        {account.accName}
+                      </option>
+                    ))}
+                </Form.Select>
+              </Col>
+            </Form.Group>
+
             <Form>
               <FormGroup
                 label="Name"
-                placeholder="Name"
-                name="pawnHolderName"
-                value={details.pawnHolderName}
+                placeholder="Loan Holder's Name"
+                name="loanHolderName"
+                value={details.loanHolderName}
                 onChange={setValue}
               />
 
               <FormGroup
                 label="Address"
                 placeholder="Address"
-                name="pawnHolderAddress"
-                value={details.pawnHolderAddress}
+                name="loanHolderAddress"
+                value={details.loanHolderAddress}
                 onChange={setValue}
               />
 
               <FormGroup
                 label="Mobile"
                 placeholder="Mobile"
-                name="pawnHolderMobileNo"
-                value={details.pawnHolderMobileNo}
+                name="loanHolderMobileNo"
+                value={details.loanHolderMobileNo}
                 onChange={setValue}
               />
 
               <FormGroup
                 label="Age"
                 placeholder="Age"
-                name="pawnHolderAge"
-                value={details.pawnHolderAge}
+                name="loanHolderAge"
+                value={details.loanHolderAge}
                 onChange={setValue}
               />
 
               <FormGroup
-                label="Item Type"
-                placeholder="Item Type"
-                name="itemType"
-                value={details.itemType}
+                label="Amount"
+                placeholder="Amount"
+                name="amount"
+                value={details.amount}
                 onChange={setValue}
               />
 
               <FormGroup
-                label="Item Value(Rs.)"
-                placeholder="Item Value in Ruppees"
-                name="itemValue"
-                value={details.itemValue}
+                label="Loan Rate"
+                placeholder="Loan Rate"
+                name="loanRate"
+                value={details.loanRate}
                 onChange={setValue}
               />
 
@@ -164,18 +269,20 @@ const LoanAdd = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/pawn")}
+                    onClick={() => history.push("/loan")}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back
                   </Button>
+                  <Button
+                    variant="outline-secondary"
+                    onClick={() => clear()}
+                    style={{ marginLeft: 100 }}
+                  >
+                    Clear
+                  </Button>
                 </Col>
               </Form.Group>
-              {showSuccessMsg && (
-                <Alert variant="success">
-                  Pawn Account successfully added !
-                </Alert>
-              )}
             </Form>
           </Card.Body>
         </Card>

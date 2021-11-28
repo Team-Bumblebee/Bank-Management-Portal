@@ -46,6 +46,7 @@ const CashAdd = () => {
     accHolderAge: "",
     interestRate: "",
     type: "",
+    accName: "",
     remarks: "",
   });
 
@@ -77,7 +78,7 @@ const CashAdd = () => {
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
   const handleCreate = async () => {
-    const { accType: type, interestRate } = accounts[selectedAccount];
+    const { accName, accType: type, interestRate } = accounts[selectedAccount];
     setShowSuccessMsg(false);
     const cashCounterDocRef = doc(db, "counters", "cash-accounts");
     try {
@@ -87,12 +88,15 @@ const CashAdd = () => {
         let concat = "00000000" + newCount;
         transaction.set(
           doc(db, "cashaccounts", "CA" + concat.substring(concat.length - 8)),
-          { ...details, type, interestRate }
+          { ...details, accName, type, interestRate }
         );
         transaction.update(cashCounterDocRef, { count: newCount });
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push("/cash");
+      }, 2000);
     } catch (e) {
       console.error(e);
     }
@@ -219,7 +223,9 @@ const CashAdd = () => {
                 </Col>
               </Form.Group>
               {showSuccessMsg && (
-                <Alert variant="success">Account successfully added !</Alert>
+                <Alert variant="success">
+                  Cash account successfully added !
+                </Alert>
               )}
             </Form>
           </Card.Body>

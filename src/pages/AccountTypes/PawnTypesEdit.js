@@ -54,7 +54,7 @@ const PawnTypesEdit = () => {
     }
     setShowSuccessMsg(true);
     setTimeout(() => {
-      history.push("/accType");
+      history.push(`/accType/${"third"}`);
     }, 2000);
   };
 
@@ -65,7 +65,7 @@ const PawnTypesEdit = () => {
       if (docSnap.exists()) {
         setDetails(docSnap.data());
       } else {
-        history.push("/accType");
+        history.push(`/accType/${"third"}`);
       }
     })();
   }, []);
@@ -95,7 +95,7 @@ const PawnTypesEdit = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -103,7 +103,7 @@ const PawnTypesEdit = () => {
               <FormGroup
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
-                name="maxValue"
+                name="maxVal"
                 value={details.maxVal}
                 onChange={setValue}
               />
@@ -139,7 +139,7 @@ const PawnTypesEdit = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"third"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

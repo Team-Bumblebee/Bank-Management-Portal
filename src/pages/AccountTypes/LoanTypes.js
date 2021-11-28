@@ -42,7 +42,7 @@ const LoanType = (refresh) => {
             onClick={() => history.push("/loanTypes/add")}
           >
             <i className="bi bi-plus"></i>
-            Create Loan Account Type
+            Add Loan Account Type
           </Button>
         </div>
       </Card>

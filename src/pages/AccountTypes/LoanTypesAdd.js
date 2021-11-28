@@ -65,6 +65,9 @@ const LoanTypesAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push(`/accType/${"second"}`);
+      }, 2000);
     } catch (e) {
       console.error(e);
     }
@@ -75,6 +78,7 @@ const LoanTypesAdd = () => {
       accType: "",
       accName: "",
       maxVal: "",
+      category: "loan",
       loanRate: "",
       period: "",
       remarks: "",
@@ -92,7 +96,7 @@ const LoanTypesAdd = () => {
               <FormGroup
                 label="Type"
                 placeholder="Type"
-                name="type"
+                name="accType"
                 value={details.accType}
                 onChange={setValue}
               />
@@ -100,7 +104,7 @@ const LoanTypesAdd = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -108,7 +112,7 @@ const LoanTypesAdd = () => {
               <FormGroup
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
-                name="maxValue"
+                name="maxVal"
                 value={details.maxVal}
                 onChange={setValue}
               />
@@ -144,7 +148,7 @@ const LoanTypesAdd = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"second"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

@@ -1,14 +1,16 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 
 const Login = () => {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const clear = () => {
     setEmail("");
@@ -16,18 +18,20 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    // try {
-    //   const userCredential = await signInWithEmailAndPassword(
-    //     auth,
-    //     email,
-    //     password
-    //   );
-    //   const user = userCredential.user;
-    history.push("/admin");
-    //   clear();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    setError(false);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const docRef = doc(db, "employees", userCredential.user.uid);
+      const docSnap = await getDoc(docRef);
+      history.push("/" + docSnap.data().department);
+      clear();
+    } catch (error) {
+      setError(true);
+    }
   };
 
   return (
@@ -72,6 +76,11 @@ const Login = () => {
             >
               Login
             </Button>
+            {error && (
+              <Alert variant="danger" className="text-center">
+                Invalid Credentials
+              </Alert>
+            )}
           </Form>
         </Card.Body>
       </Card>

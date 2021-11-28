@@ -55,7 +55,7 @@ const LoanTypesEdit = () => {
     }
     setShowSuccessMsg(true);
     setTimeout(() => {
-      history.push("/accType");
+      history.push(`/accType/${"second"}`);
     }, 2000);
   };
 
@@ -66,7 +66,7 @@ const LoanTypesEdit = () => {
       if (docSnap.exists()) {
         setDetails(docSnap.data());
       } else {
-        history.push("/accType");
+        history.push(`/accType/${"second"}`);
       }
     })();
   }, []);
@@ -96,7 +96,7 @@ const LoanTypesEdit = () => {
               <FormGroup
                 label="Type"
                 placeholder="Type"
-                name="type"
+                name="accType"
                 value={details.accType}
                 onChange={setValue}
               />
@@ -104,7 +104,7 @@ const LoanTypesEdit = () => {
               <FormGroup
                 label="Name"
                 placeholder="Name"
-                name="name"
+                name="accName"
                 value={details.accName}
                 onChange={setValue}
               />
@@ -112,7 +112,7 @@ const LoanTypesEdit = () => {
               <FormGroup
                 label="Max Value (Rs.)"
                 placeholder="Max Value (Rs.)"
-                name="maxValue"
+                name="maxVal"
                 value={details.maxVal}
                 onChange={setValue}
               />
@@ -148,7 +148,7 @@ const LoanTypesEdit = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"second"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

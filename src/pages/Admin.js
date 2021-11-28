@@ -1,6 +1,8 @@
 import React from "react";
+import { useEffect } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import useAuth from "../contexts/AuthContext";
 
 const AdminButton = ({ children, onClick }) => {
   return (
@@ -20,6 +22,13 @@ const AdminButton = ({ children, onClick }) => {
 
 const Admin = () => {
   const history = useHistory();
+  const { loading, user, userDetails } = useAuth();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!(user && userDetails.department === "admin")) history.push("/");
+    }
+  }, [loading]);
 
   return (
     <div
@@ -27,14 +36,14 @@ const Admin = () => {
       className="d-flex justify-content-center align-items-center"
     >
       <Container>
-        <Row>
+        <Row align="center">
           <AdminButton onClick={() => history.push("/employee")}>
             Employee Details
           </AdminButton>
-          <AdminButton onClick={() => history.push("/accType")}>
+          <AdminButton onClick={() => history.push(`/accType/${"first"}`)}>
             Account Types
           </AdminButton>
-          <AdminButton onClick={() => history.push("/")}>
+          <AdminButton onClick={() => history.push("/logs")}>
             Log Details
           </AdminButton>
           <AdminButton onClick={() => history.push("/cash")}>
