@@ -88,7 +88,11 @@ const CashEdit = () => {
       setAccounts(
         querySnapshot.docs.map((doc, index) => ({ index, ...doc.data() }))
       );
-      setSelectedAccount(docSnap.data().accName);
+      setSelectedAccount(
+        querySnapshot.docs.findIndex(
+          (doc) => doc.data().accName === docSnap.data().accName
+        )
+      );
       setDetails(docSnap.data());
     })();
   }, []);
