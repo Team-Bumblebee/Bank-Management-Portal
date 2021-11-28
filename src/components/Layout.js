@@ -1,18 +1,47 @@
-import React from "react";
-import { Button, Card, Container, Nav, Navbar } from "react-bootstrap";
+import { signOut } from "firebase/auth";
+import React, { useState } from "react";
+import { Button, Card, Container, Modal, Nav, Navbar } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import useAuth from "../contexts/AuthContext";
+import { auth } from "../firebase";
 
 const Layout = ({ children }) => {
   const history = useHistory();
-  const { userDetails } = useAuth();
+  const { user, userDetails } = useAuth();
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleLogout = () => {
+    signOut(auth);
+    history.push("/");
+    handleClose();
+  };
 
   return (
     <div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>You are trying to logout from your account</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand
-            onClick={() => history.push("/admin")}
+            onClick={() =>
+              history.push("/" + (userDetails ? userDetails.department : ""))
+            }
             role="button"
             style={{ fontSize: 24 }}
           >
@@ -26,22 +55,26 @@ const Layout = ({ children }) => {
             />
             Bank Management Portal
           </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link>
-              {userDetails &&
-                `Welcome ${userDetails.fName} ${userDetails.lName}`}
-            </Nav.Link>
-          </Nav>
-          <Nav className="justify-content-end">
-            <Nav.Link>
-              <Button
-                variant="dark"
-                style={{ backgroundColor: "darkslategrey" }}
-              >
-                LOGOUT
-              </Button>
-            </Nav.Link>
-          </Nav>
+          {user && (
+            <Nav className="me-auto">
+              <Nav.Link>
+                {userDetails && `Welcome ${userDetails.name}`}
+              </Nav.Link>
+            </Nav>
+          )}
+          {user && (
+            <Nav className="justify-content-end">
+              <Nav.Link>
+                <Button
+                  variant="dark"
+                  style={{ backgroundColor: "darkslategrey" }}
+                  onClick={handleShow}
+                >
+                  LOGOUT
+                </Button>
+              </Nav.Link>
+            </Nav>
+          )}
         </Container>
       </Navbar>
       <div
