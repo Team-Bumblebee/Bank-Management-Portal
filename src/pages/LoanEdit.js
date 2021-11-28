@@ -92,7 +92,7 @@ const LoanEdit = () => {
       setAccountTypes(
         Array.from(new Set(querySnapshot.docs.map((doc) => doc.data().accType)))
       );
-      setSelectedType(querySnapshot.docs[0].data().accType);
+      setSelectedType(docSnap.data().accType);
       setAccounts(
         querySnapshot.docs.map((doc, index) => ({ index, ...doc.data() }))
       );
