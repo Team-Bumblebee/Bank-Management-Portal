@@ -8,7 +8,15 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { db } from "../firebase";
 
@@ -45,6 +53,8 @@ const CashEdit = () => {
     remarks: "",
   });
 
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+
   const [accountTypes, setAccountTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [accounts, setAccounts] = useState([]);
@@ -55,6 +65,7 @@ const CashEdit = () => {
 
   const handleUpdate = async () => {
     const { accName, accType: type, interestRate } = accounts[selectedAccount];
+    setShowSuccessMsg(false);
     try {
       await setDoc(doc(db, "cashaccounts", id), {
         ...details,
@@ -62,10 +73,13 @@ const CashEdit = () => {
         type,
         interestRate,
       });
+      setShowSuccessMsg(true);
     } catch (e) {
       console.error(e);
     }
-    history.push("/cash");
+    setTimeout(() => {
+      history.push("/cash");
+    }, 2000);
   };
 
   useEffect(() => {
@@ -218,6 +232,11 @@ const CashEdit = () => {
                   </Button>
                 </Col>
               </Form.Group>
+              {showSuccessMsg && (
+                <Alert variant="success">
+                  Cash account successfully updated !
+                </Alert>
+              )}
             </Form>
           </Card.Body>
         </Card>

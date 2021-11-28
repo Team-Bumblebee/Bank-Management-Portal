@@ -89,10 +89,7 @@ const Layout = ({ children }) => {
       >
         {children}
       </div>
-      <Card.Footer
-        className="text-center"
-        style={{ backgroundColor: "lightgrey" }}
-      >
+      <Card.Footer className="bg-dark text-center text-white">
         <i>Developed by Team Bumblebee</i>
       </Card.Footer>
     </div>
