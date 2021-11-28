@@ -1,3 +1,11 @@
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  runTransaction,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
@@ -10,14 +18,6 @@ import {
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { db } from "../firebase";
-import {
-  collection,
-  getDocs,
-  doc,
-  runTransaction,
-  query,
-  where,
-} from "firebase/firestore";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -148,7 +148,6 @@ const PawnAdd = () => {
               </Form.Label>
               <Col sm={5}>
                 <Form.Select
-                  aria-label="Default select example"
                   onChange={(e) =>
                     setDetails({
                       ...details,
@@ -164,6 +163,7 @@ const PawnAdd = () => {
                   </option>
                   {accounts.map((pawn, i) => (
                     <option
+                      key={pawn.accName}
                       id={i}
                       value={[
                         pawn.accName,
@@ -267,7 +267,6 @@ const PawnAdd = () => {
                     onClick={() => clear()}
                     style={{ marginLeft: 100 }}
                   >
-                    {" "}
                     Clear
                   </Button>
                 </Col>
