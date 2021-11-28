@@ -1,3 +1,4 @@
+const { getDoc } = require("@firebase/firestore");
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const serviceAccount = require("./serviceAccountKey.json");
@@ -11,23 +12,35 @@ exports.addEmployee = functions.https.onCall(async (data, context) => {
   const db = admin.firestore();
   const employeeCounterDocRef = db.collection("counters").doc("employees");
   try {
-    const id = await db.runTransaction(async (transaction) => {
-      const employeeCounterDoc = await transaction.get(employeeCounterDocRef);
-      const newCount = employeeCounterDoc.data().count + 1;
-      let concat = "00000000" + newCount;
-      const id = "EM" + concat.substring(concat.length - 8);
-      const { password, ...rest } = details;
-      transaction.set(db.collection("employees").doc(id), rest);
-      transaction.update(employeeCounterDocRef, { count: newCount });
-      return id;
+    // const id = await db.runTransaction(async (transaction) => {
+    //   const employeeCounterDoc = await transaction.get(employeeCounterDocRef);
+    //   const newCount = employeeCounterDoc.data().count + 1;
+    //   let concat = "00000000" + newCount;
+    //   const id = "EM" + concat.substring(concat.length - 8);
+    //   const { password, ...rest } = details;
+    //   transaction.set(db.collection("employees").doc(id), rest);
+    //   transaction.update(employeeCounterDocRef, { count: newCount });
+    //   return id;
+    // });
+    const employeeCounterDoc = await transaction.get(employeeCounterDocRef);
+    const newCount = employeeCounterDoc.data().count + 1;
+    let concat = "00000000" + newCount;
+    const id = "EM" + concat.substring(concat.length - 8);
+    await admin.auth().createUser({
+      uid: id,
+      email: details.email,
+      password: details.password,
     });
-    return (
-      await admin.auth().createUser({
-        uid: id,
-        email: details.email,
-        password: details.password,
-      })
-    ).uid;
+    const { password, ...rest } = details;
+    transaction.set(db.collection("employees").doc(id), rest);
+    transaction.update(employeeCounterDocRef, { count: newCount });
+    // return (
+    //   await admin.auth().createUser({
+    //     uid: id,
+    //     email: details.email,
+    //     password: details.password,
+    //   })
+    // ).uid;
   } catch (e) {
     throw new functions.https.HttpsError("internal", "Transaction failed");
   }
