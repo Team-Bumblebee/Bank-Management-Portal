@@ -1,4 +1,12 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
@@ -33,8 +41,14 @@ const CashEdit = () => {
     accHolderAge: "",
     interestRate: "",
     type: "",
+    accName: "",
     remarks: "",
   });
+
+  const [accountTypes, setAccountTypes] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
+  const [accounts, setAccounts] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState(0);
 
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
@@ -52,11 +66,28 @@ const CashEdit = () => {
     (async () => {
       const docRef = doc(db, "cashaccounts", id);
       const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setDetails(docSnap.data());
-      } else {
+      if (!docSnap.exists()) {
         history.push("/cash");
+        return;
       }
+      const q = query(
+        collection(db, "accounttypes"),
+        where("category", "==", "cash")
+      );
+      const querySnapshot = await getDocs(q);
+      setAccountTypes(
+        Array.from(new Set(querySnapshot.docs.map((doc) => doc.data().accType)))
+      );
+      setSelectedType(querySnapshot.docs[0].data().accType);
+      setAccounts(
+        querySnapshot.docs.map((doc, index) => ({ index, ...doc.data() }))
+      );
+      setSelectedAccount(
+        querySnapshot.docs.findIndex(
+          (doc) => doc.data().accName === docSnap.data().accName
+        )
+      );
+      setDetails(docSnap.data());
     })();
   }, []);
 
@@ -116,14 +147,45 @@ const CashEdit = () => {
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                  Account
+                  Account Type
                 </Form.Label>
                 <Col sm={10}>
-                  <Form.Select>
-                    <option>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <Form.Select
+                    value={selectedType}
+                    onChange={(e) =>
+                      setSelectedType(e.target.value) +
+                      setSelectedAccount(
+                        accounts.findIndex(
+                          (account) => account.accType === e.target.value
+                        )
+                      )
+                    }
+                  >
+                    {accountTypes.map((accountType) => (
+                      <option key={accountType} value={accountType}>
+                        {accountType}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                  Account Name
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Select
+                    value={selectedAccount}
+                    onChange={(e) => setSelectedAccount(e.target.value)}
+                  >
+                    {accounts
+                      .filter((account) => account.accType === selectedType)
+                      .map((account) => (
+                        <option key={account.accName} value={account.index}>
+                          {account.accName}
+                        </option>
+                      ))}
                   </Form.Select>
                 </Col>
               </Form.Group>

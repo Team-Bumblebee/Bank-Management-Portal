@@ -1,3 +1,4 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
@@ -10,7 +11,6 @@ import {
 } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const FormGroup = ({ label, placeholder, name, value, onChange }) => {
   return (
@@ -87,10 +87,7 @@ const PawnEdit = () => {
                 Account Type
               </Form.Label>
               <Col sm={10}>
-                <Form.Select
-                  aria-label="Default select example"
-                  disabled={true}
-                >
+                <Form.Select disabled={true}>
                   <option>{details.accType}</option>
                 </Form.Select>
               </Col>
