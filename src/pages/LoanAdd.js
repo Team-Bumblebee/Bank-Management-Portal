@@ -148,7 +148,7 @@ const LoanAdd = () => {
             <Alert variant={showSuccessMsg ? "success" : "danger"}>
               {showSuccessMsg
                 ? "Loan Account successfully added !"
-                : "Account , Name, Amount cannot be empty !"}
+                : "Account type, Account Name, Loan Holder's Name, Amount cannot be empty !"}
             </Alert>
           )}
           <Card.Body>

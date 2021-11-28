@@ -53,20 +53,33 @@ const EmployeeAdd = () => {
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
+  const validate = () => {
+    const email = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (
+      email.test(details.email) &&
+      details.password.length === 6 &&
+      details.name !== ""
+    )
+      return true;
+    else return false;
+  };
+
   const handleCreate = async () => {
     setShowSuccessMsg(false);
     setError(false);
     setLoading(true);
-    try {
-      const addEmployee = httpsCallable(functions, "addEmployee");
-
-      await addEmployee({ details });
-      setShowSuccessMsg(true);
-      clear();
-    } catch (e) {
-      setError(true);
-    } finally {
-      setLoading(false);
+    if (validate()) {
+      try {
+        const addEmployee = httpsCallable(functions, "addEmployee");
+        await addEmployee({ details });
+        setShowSuccessMsg(true);
+        clear();
+      } catch (e) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    } else {
     }
   };
 
