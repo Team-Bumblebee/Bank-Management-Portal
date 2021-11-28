@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
             <Nav.Link>
               <Button
                 variant="dark"
-                style={{ backgroundColor: "darkslategrey" }}
+                style={{ backgroundColor: "lightslategrey" }}
               >
                 LOGOUT
               </Button>
@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
       </div>
       <Card.Footer
         className="text-center"
-        style={{ color: "darkgreen", backgroundColor: "lightgrey" }}
+        style={{ backgroundColor: "lightgrey" }}
       >
         <i>Developed by Team Bumblebee</i>
       </Card.Footer>
