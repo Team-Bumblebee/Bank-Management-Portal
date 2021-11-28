@@ -49,24 +49,41 @@ const EmployeeAdd = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const setValue = (e) =>
     setDetails((details) => ({ ...details, [e.target.name]: e.target.value }));
 
+  const validate = () => {
+    const email = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (
+      email.test(details.email) &&
+      details.password.length >= 6 &&
+      details.name !== ""
+    )
+      return true;
+    else return false;
+  };
+
   const handleCreate = async () => {
     setShowSuccessMsg(false);
     setError(false);
-    setLoading(true);
-    try {
-      const addEmployee = httpsCallable(functions, "addEmployee");
-
-      await addEmployee({ details });
-      setShowSuccessMsg(true);
-      clear();
-    } catch (e) {
+    if (validate()) {
+      setLoading(true);
+      try {
+        const addEmployee = httpsCallable(functions, "addEmployee");
+        await addEmployee({ details });
+        setShowSuccessMsg(true);
+        clear();
+      } catch (e) {
+        setErrorMsg("Please try again !");
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setErrorMsg("Please enter valide Employee Name, Email, Password !");
       setError(true);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -95,7 +112,7 @@ const EmployeeAdd = () => {
             <Form>
               <FormGroup
                 label="Name"
-                placeholder="Name"
+                placeholder="Employee Name"
                 name="name"
                 value={details.name}
                 onChange={setValue}
@@ -221,7 +238,7 @@ const EmployeeAdd = () => {
               {showSuccessMsg && (
                 <Alert variant="success">Employee successfully added !</Alert>
               )}
-              {error && <Alert variant="danger">Please try again!</Alert>}
+              {error && <Alert variant="danger">{errorMsg}</Alert>}
             </Form>
           </Card.Body>
         </Card>
