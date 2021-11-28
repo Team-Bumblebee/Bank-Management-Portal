@@ -36,7 +36,7 @@ const Admin = () => {
       className="d-flex justify-content-center align-items-center"
     >
       <Container>
-        <Row>
+        <Row align="center">
           <AdminButton onClick={() => history.push("/employee")}>
             Employee Details
           </AdminButton>

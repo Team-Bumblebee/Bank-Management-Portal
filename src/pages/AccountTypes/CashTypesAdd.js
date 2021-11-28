@@ -64,6 +64,9 @@ const CashTypesAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push(`/accType/${"first"}`);
+      }, 2000);
     } catch (e) {
       console.error(e);
     }

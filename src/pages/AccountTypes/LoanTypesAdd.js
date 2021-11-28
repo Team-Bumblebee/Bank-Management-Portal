@@ -65,6 +65,9 @@ const LoanTypesAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push(`/accType/${"second"}`);
+      }, 2000);
     } catch (e) {
       console.error(e);
     }

@@ -55,7 +55,7 @@ const LoanTypesEdit = () => {
     }
     setShowSuccessMsg(true);
     setTimeout(() => {
-      history.push("/accType");
+      history.push(`/accType/${"second"}`);
     }, 2000);
   };
 
@@ -66,7 +66,7 @@ const LoanTypesEdit = () => {
       if (docSnap.exists()) {
         setDetails(docSnap.data());
       } else {
-        history.push("/accType");
+        history.push(`/accType/${"second"}`);
       }
     })();
   }, []);
@@ -148,7 +148,7 @@ const LoanTypesEdit = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"second"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

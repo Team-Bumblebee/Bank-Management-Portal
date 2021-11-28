@@ -54,7 +54,7 @@ const PawnTypesEdit = () => {
     }
     setShowSuccessMsg(true);
     setTimeout(() => {
-      history.push("/accType");
+      history.push(`/accType/${"third"}`);
     }, 2000);
   };
 
@@ -65,7 +65,7 @@ const PawnTypesEdit = () => {
       if (docSnap.exists()) {
         setDetails(docSnap.data());
       } else {
-        history.push("/accType");
+        history.push(`/accType/${"third"}`);
       }
     })();
   }, []);
@@ -139,7 +139,7 @@ const PawnTypesEdit = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"third"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

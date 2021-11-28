@@ -54,7 +54,7 @@ const CashTypesEdit = () => {
     }
     setShowSuccessMsg(true);
     setTimeout(() => {
-      history.push("/accType");
+      history.push(`/accType/${"first"}`);
     }, 2000);
   };
 
@@ -65,7 +65,7 @@ const CashTypesEdit = () => {
       if (docSnap.exists()) {
         setDetails(docSnap.data());
       } else {
-        history.push("/accType");
+        history.push(`/accType/${"first"}`);
       }
     })();
   }, []);
@@ -139,7 +139,7 @@ const CashTypesEdit = () => {
                   </Button>
                   <Button
                     variant="outline-secondary"
-                    onClick={() => history.push("/accType")}
+                    onClick={() => history.push(`/accType/${"first"}`)}
                     style={{ marginLeft: 48 }}
                   >
                     <i className="bi bi-arrow-left"></i>&nbsp; Go Back

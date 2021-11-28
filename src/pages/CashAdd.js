@@ -223,7 +223,9 @@ const CashAdd = () => {
                 </Col>
               </Form.Group>
               {showSuccessMsg && (
-                <Alert variant="success">Account successfully added !</Alert>
+                <Alert variant="success">
+                  Cash account successfully added !
+                </Alert>
               )}
             </Form>
           </Card.Body>
