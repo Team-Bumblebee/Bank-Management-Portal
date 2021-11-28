@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
 
           {user && (
             <Nav className="me-auto">
-              <Nav.Link>
+              <Nav.Link role="banner">
                 {userDetails && `Welcome ${userDetails.name}`}
               </Nav.Link>
             </Nav>

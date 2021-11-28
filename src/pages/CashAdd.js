@@ -109,8 +109,6 @@ const CashAdd = () => {
       type: "",
       remarks: "",
     });
-    setAccountTypes(accountTypes[0]);
-    setSelectedAccount(0);
   };
 
   return (

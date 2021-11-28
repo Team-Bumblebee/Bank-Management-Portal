@@ -16,10 +16,11 @@ export const AuthProvider = ({ children }) => {
         const uid = user.uid;
         const docRef = doc(db, "employees", uid);
         const docSnap = await getDoc(docRef);
-        setUser(user);
         setUserDetails(docSnap.data());
       } else {
+        setUserDetails();
       }
+      setUser(user);
       setLoading(false);
     });
 
