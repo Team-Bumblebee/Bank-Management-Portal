@@ -64,6 +64,9 @@ const PawnTypesAdd = () => {
       });
       setShowSuccessMsg(true);
       clear();
+      setTimeout(() => {
+        history.push(`/accType/${"third"}`);
+      }, 2000);
     } catch (e) {
       console.error(e);
     }

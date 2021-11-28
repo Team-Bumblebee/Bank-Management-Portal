@@ -159,7 +159,9 @@ const PawnAdd = () => {
                     setMaxValue(e.target.value.split(",")[3])
                   }
                 >
-                  <option value="defaultValue">Select Pawn Account Type</option>
+                  <option selected={!details.accType}>
+                    Select Pawn Account Type
+                  </option>
                   {accounts.map((pawn, i) => (
                     <option
                       key={pawn.accName}

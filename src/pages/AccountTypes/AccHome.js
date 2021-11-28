@@ -24,13 +24,13 @@ const AccHome = () => {
           <Row>
             <Col sm={2} className="py-3">
               <Nav variant="pills" className="flex-column">
-                <Nav.Item role="button">
+                <Nav.Item role="button" style={{ backgroundColor: "white" }}>
                   <Nav.Link eventKey="first">Cash</Nav.Link>
                 </Nav.Item>
-                <Nav.Item role="button">
+                <Nav.Item role="button" style={{ backgroundColor: "white" }}>
                   <Nav.Link eventKey="second">Loan</Nav.Link>
                 </Nav.Item>
-                <Nav.Item role="button">
+                <Nav.Item role="button" style={{ backgroundColor: "white" }}>
                   <Nav.Link eventKey="third">Pawn</Nav.Link>
                 </Nav.Item>
               </Nav>
