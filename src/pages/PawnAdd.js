@@ -67,7 +67,8 @@ const PawnAdd = () => {
       details.accType &&
       details.pawnHolderName &&
       details.itemType &&
-      details.itemValue
+      details.itemValue &&
+      details.duration
     ) {
       setShowWarningMsg(false);
       setShowSuccessMsg(false);
@@ -138,7 +139,7 @@ const PawnAdd = () => {
             <Alert variant={showSuccessMsg ? "success" : "danger"}>
               {showSuccessMsg
                 ? "Pawn Account successfully added !"
-                : "Account Type, Name, Item Type, Item Value cannot be empty !"}
+                : "Account Type, Name, Item Type, Item Value, Duration cannot be empty !"}
             </Alert>
           )}
           <Card.Body>
